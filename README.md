@@ -1,3 +1,5 @@
+[![CI](https://github.com/chpatrick/flann/workflows/CI/badge.svg)](https://github.com/chpatrick/flann/actions?query=workflow%3ACI)
+
 FLANN - Fast Library for Approximate Nearest Neighbors
 ======================================================
 
