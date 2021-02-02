@@ -48,6 +48,8 @@ struct base_any_policy
     virtual ::size_t get_size() = 0;
     virtual const std::type_info& type() = 0;
     virtual void print(std::ostream& out, void* const* src) = 0;
+
+    virtual ~base_any_policy() = default;
 };
 
 template<typename T>
