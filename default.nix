@@ -4,7 +4,12 @@
   pname = "flann";
   version = "1.9.1";
 
-  src = ./.;
+  src =
+    builtins.filterSource (path: type:
+      builtins.any(dir: let absDir = toString (./. + "/${dir}"); in path == absDir || lib.hasPrefix (absDir + "/") path)
+        [ "cmake" "doc" "examples" "src" "test" ]
+        || path == toString ./CMakeLists.txt
+    ) ./.;
 
   nativeBuildInputs = [ cmake pkgconfig ];
   buildInputs = [ python gtest hdf5 lz4 cudatoolkit ];
