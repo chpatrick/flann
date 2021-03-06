@@ -116,10 +116,11 @@ public:
     	throw FLANNException("KDTreeCuda3dIndex cloning is not implemented");
     }
 
+    using NNIndex<Distance>::buildIndex;
     /**
      * Builds the index
      */
-    void buildIndex()
+    void buildIndex() override
     {
         // Create a permutable array of indices to the input vectors.
         vind_.resize(size_);
@@ -191,10 +192,17 @@ public:
      * \param[in] knn Number of nearest neighbors to return
      * \param[in] params Search parameters
      */
-    int knnSearch(const Matrix<ElementType>& queries, Matrix<int>& indices, Matrix<DistanceType>& dists, size_t knn, const SearchParams& params) const
+    int knnSearch(const Matrix<ElementType>& queries, Matrix<int>& indices, Matrix<DistanceType>& dists, size_t knn, const SearchParams& params) const override
     {
+        std::cout << "KDTreeCuda3dIndex::knnSearch(matrix of int)" << std::endl;
+
     	knnSearchGpu(queries,indices, dists, knn, params);
         return knn*queries.rows; // hack...
+    }
+
+    int knnSearch(const Matrix<ElementType>& queries, Matrix<size_t>& indices, Matrix<DistanceType>& dists, size_t knn, const SearchParams& params) const override
+    {
+        throw FLANNException("size_t indices are not supported in CUDA.");
     }
 
     /**
@@ -209,10 +217,19 @@ public:
                           std::vector< std::vector<int> >& indices,
                           std::vector<std::vector<DistanceType> >& dists,
                           size_t knn,
-                          const SearchParams& params) const
+                          const SearchParams& params) const override
     {
     	knnSearchGpu(queries,indices, dists, knn, params);
         return knn*queries.rows; // hack...
+    }
+
+    int knnSearch(const Matrix<ElementType>& queries,
+                          std::vector< std::vector<size_t> >& indices,
+                          std::vector<std::vector<DistanceType> >& dists,
+                          size_t knn,
+                          const SearchParams& params) const override
+    {
+        throw FLANNException("size_t indices are not supported in CUDA.");
     }
 
     /**

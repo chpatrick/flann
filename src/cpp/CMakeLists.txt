@@ -36,12 +36,14 @@ set_target_properties(flann_cpp PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS YES)
 if (BUILD_CUDA_LIB)
 	cuda_add_library(flann_cuda SHARED ${CU_SOURCES})
     set_property(TARGET flann_cuda PROPERTY COMPILE_DEFINITIONS FLANN_USE_CUDA)
+    set_property(TARGET flann_cuda PROPERTY CUDA_STANDARD 11)
 endif()
 
 set_target_properties(flann_cpp PROPERTIES
    VERSION ${FLANN_VERSION}
    SOVERSION ${FLANN_SOVERSION}
    DEFINE_SYMBOL FLANN_EXPORTS
+   CXX_STANDARD 11
 )
 
 if (BUILD_CUDA_LIB)
