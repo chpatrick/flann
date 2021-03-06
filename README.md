@@ -10,9 +10,7 @@ FLANN is written in C++ and contains bindings for the following languages: C, MA
 Documentation
 -------------
 
-Check FLANN web page [here](http://www.cs.ubc.ca/research/flann).
-
-Documentation on how to use the library can be found in the doc/manual.pdf file included in the release archives.
+HTML documentation is available [here](https://chpatrick.github.io/flann).
 
 More information and experimental results can be found in the following paper:
 
