@@ -1,0 +1,1761 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FLANN documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> FLANN
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-intro">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#quick-start">Quick Start</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-using">Using FLANN</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#using-flann-from-c">Using FLANN from C++</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#using-flann-from-c-1">Using FLANN from C</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#using-flann-from-matlab">Using FLANN from MATLAB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#using-flann-from-python">Using FLANN from python</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">FLANN</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>FLANN  documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-flann-s-documentation">
+<h1>Welcome to FLANN’s documentation!<a class="headerlink" href="#welcome-to-flann-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<span id="document-intro"></span><div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>We can define the <em>nearest neighbor search (NSS)</em> problem in the
+following way: given a set of points <span class="math notranslate nohighlight">\(P=p_1,p_2,\dots,p_n\)</span> in a
+metric space <span class="math notranslate nohighlight">\(X\)</span>, these points must be preprocessed in such a way
+that given a new query point <span class="math notranslate nohighlight">\(q \in X\)</span>, finding the point in
+<span class="math notranslate nohighlight">\(P\)</span> that is nearest to <span class="math notranslate nohighlight">\(q\)</span> can be done quickly.</p>
+<p>The problem of nearest neighbor search is one of major importance in a
+variety of applications such as image recognition, data compression,
+pattern recognition and classification, machine learning, document
+retrieval systems, statistics and data analysis. However, solving this
+problem in high dimensional spaces seems to be a very difficult task and
+there is no algorithm that performs significantly better than the
+standard brute-force search. This has lead to an increasing interest in
+a class of algorithms that perform approximate nearest neighbor
+searches, which have proven to be a good-enough approximation in most
+practical applications and in most cases, orders of magnitude faster
+that the algorithms performing the exact searches.</p>
+<p>FLANN (Fast Library for Approximate Nearest Neighbors) is a library for
+performing fast approximate nearest neighbor searches. FLANN is written
+in the C++ programming language. FLANN can be easily used in many
+contexts through the C, MATLAB, Python, and Ruby bindings provided with
+the library.</p>
+<div class="section" id="quick-start">
+<span id="sec-quickstart"></span><h3>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h3>
+<p>This section contains small examples of how to use the FLANN library
+from different programming languages (C++, C, MATLAB, Python, and Ruby).</p>
+<ul>
+<li><p><strong>C++</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">file</span> <span class="n">flann_example</span><span class="o">.</span><span class="n">cpp</span>
+
+<span class="c1">#include &lt;flann/flann.hpp&gt;</span>
+<span class="c1">#include &lt;flann/io/hdf5.h&gt;</span>
+
+<span class="c1">#include &lt;stdio.h&gt;</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nb">int</span> <span class="n">nn</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+
+    <span class="n">flann</span><span class="p">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span> <span class="n">dataset</span><span class="p">;</span>
+    <span class="n">flann</span><span class="p">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span> <span class="n">query</span><span class="p">;</span>
+    <span class="n">flann</span><span class="p">::</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s2">&quot;dataset.hdf5&quot;</span><span class="p">,</span><span class="s2">&quot;dataset&quot;</span><span class="p">);</span>
+    <span class="n">flann</span><span class="p">::</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="s2">&quot;dataset.hdf5&quot;</span><span class="p">,</span><span class="s2">&quot;query&quot;</span><span class="p">);</span>
+
+    <span class="n">flann</span><span class="p">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">indices</span><span class="p">(</span><span class="n">new</span> <span class="nb">int</span><span class="p">[</span><span class="n">query</span><span class="o">.</span><span class="n">rows</span><span class="o">*</span><span class="n">nn</span><span class="p">],</span> <span class="n">query</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span> <span class="n">nn</span><span class="p">);</span>
+    <span class="n">flann</span><span class="p">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span> <span class="n">dists</span><span class="p">(</span><span class="n">new</span> <span class="nb">float</span><span class="p">[</span><span class="n">query</span><span class="o">.</span><span class="n">rows</span><span class="o">*</span><span class="n">nn</span><span class="p">],</span> <span class="n">query</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span> <span class="n">nn</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">construct</span> <span class="n">an</span> <span class="n">randomized</span> <span class="n">kd</span><span class="o">-</span><span class="n">tree</span> <span class="n">index</span> <span class="n">using</span> <span class="mi">4</span> <span class="n">kd</span><span class="o">-</span><span class="n">trees</span>
+    <span class="n">flann</span><span class="p">::</span><span class="n">Index</span><span class="o">&lt;</span><span class="n">flann</span><span class="p">::</span><span class="n">L2</span><span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">index</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">flann</span><span class="p">::</span><span class="n">KDTreeIndexParams</span><span class="p">(</span><span class="mi">4</span><span class="p">));</span>
+    <span class="n">index</span><span class="o">.</span><span class="n">buildIndex</span><span class="p">();</span>
+
+    <span class="o">//</span> <span class="n">do</span> <span class="n">a</span> <span class="n">knn</span> <span class="n">search</span><span class="p">,</span> <span class="n">using</span> <span class="mi">128</span> <span class="n">checks</span>
+    <span class="n">index</span><span class="o">.</span><span class="n">knnSearch</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">dists</span><span class="p">,</span> <span class="n">nn</span><span class="p">,</span> <span class="n">flann</span><span class="p">::</span><span class="n">SearchParams</span><span class="p">(</span><span class="mi">128</span><span class="p">));</span>
+
+    <span class="n">flann</span><span class="p">::</span><span class="n">save_to_file</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span><span class="s2">&quot;result.hdf5&quot;</span><span class="p">,</span><span class="s2">&quot;result&quot;</span><span class="p">);</span>
+
+    <span class="n">delete</span><span class="p">[]</span> <span class="n">dataset</span><span class="o">.</span><span class="n">ptr</span><span class="p">();</span>
+    <span class="n">delete</span><span class="p">[]</span> <span class="n">query</span><span class="o">.</span><span class="n">ptr</span><span class="p">();</span>
+    <span class="n">delete</span><span class="p">[]</span> <span class="n">indices</span><span class="o">.</span><span class="n">ptr</span><span class="p">();</span>
+    <span class="n">delete</span><span class="p">[]</span> <span class="n">dists</span><span class="o">.</span><span class="n">ptr</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>C</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="n">file</span> <span class="n">flann_example</span><span class="o">.</span><span class="n">c</span> <span class="o">*/</span>
+
+<span class="c1">#include &quot;flann.h&quot;</span>
+<span class="c1">#include &lt;stdio.h&gt;</span>
+<span class="c1">#include &lt;assert.h&gt;</span>
+
+<span class="o">/*</span> <span class="n">Function</span> <span class="n">that</span> <span class="n">reads</span> <span class="n">a</span> <span class="n">dataset</span> <span class="o">*/</span>
+<span class="nb">float</span><span class="o">*</span> <span class="n">read_points</span><span class="p">(</span><span class="n">char</span><span class="o">*</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">int</span> <span class="o">*</span><span class="n">rows</span><span class="p">,</span> <span class="nb">int</span> <span class="o">*</span><span class="n">cols</span><span class="p">);</span>
+
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="nb">int</span> <span class="n">rows</span><span class="p">,</span><span class="n">cols</span><span class="p">;</span>
+   <span class="nb">int</span> <span class="n">t_rows</span><span class="p">,</span> <span class="n">t_cols</span><span class="p">;</span>
+   <span class="nb">float</span> <span class="n">speedup</span><span class="p">;</span>
+
+   <span class="o">/*</span> <span class="n">read</span> <span class="n">dataset</span> <span class="n">points</span> <span class="kn">from</span> <span class="nn">file</span> <span class="n">dataset</span><span class="o">.</span><span class="n">dat</span> <span class="o">*/</span>
+   <span class="nb">float</span><span class="o">*</span> <span class="n">dataset</span> <span class="o">=</span> <span class="n">read_points</span><span class="p">(</span><span class="s2">&quot;dataset.dat&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rows</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cols</span><span class="p">);</span>
+   <span class="nb">float</span><span class="o">*</span> <span class="n">testset</span> <span class="o">=</span> <span class="n">read_points</span><span class="p">(</span><span class="s2">&quot;testset.dat&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">t_rows</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">t_cols</span><span class="p">);</span>
+
+   <span class="o">/*</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">dataset</span> <span class="ow">and</span> <span class="n">testset</span> <span class="n">should</span> <span class="n">have</span> <span class="n">the</span> <span class="n">same</span> <span class="n">dimensionality</span> <span class="o">*/</span>
+   <span class="k">assert</span><span class="p">(</span><span class="n">cols</span><span class="o">==</span><span class="n">t_cols</span><span class="p">);</span>
+
+   <span class="o">/*</span> <span class="n">number</span> <span class="n">of</span> <span class="n">nearest</span> <span class="n">neighbors</span> <span class="n">to</span> <span class="n">search</span> <span class="o">*/</span>
+   <span class="nb">int</span> <span class="n">nn</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+   <span class="o">/*</span> <span class="n">allocate</span> <span class="n">memory</span> <span class="k">for</span> <span class="n">the</span> <span class="n">nearest</span><span class="o">-</span><span class="n">neighbors</span> <span class="n">indices</span> <span class="o">*/</span>
+   <span class="nb">int</span><span class="o">*</span> <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">t_rows</span><span class="o">*</span><span class="n">nn</span><span class="o">*</span><span class="n">sizeof</span><span class="p">(</span><span class="nb">int</span><span class="p">));</span>
+   <span class="o">/*</span> <span class="n">allocate</span> <span class="n">memory</span> <span class="k">for</span> <span class="n">the</span> <span class="n">distances</span> <span class="o">*/</span>
+   <span class="nb">float</span><span class="o">*</span> <span class="n">dists</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">t_rows</span><span class="o">*</span><span class="n">nn</span><span class="o">*</span><span class="n">sizeof</span><span class="p">(</span><span class="nb">float</span><span class="p">));</span>
+
+   <span class="o">/*</span> <span class="n">index</span> <span class="n">parameters</span> <span class="n">are</span> <span class="n">stored</span> <span class="n">here</span> <span class="o">*/</span>
+   <span class="n">struct</span> <span class="n">FLANNParameters</span> <span class="n">p</span> <span class="o">=</span> <span class="n">DEFAULT_FLANN_PARAMETERS</span><span class="p">;</span>
+   <span class="n">p</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">FLANN_INDEX_AUTOTUNED</span><span class="p">;</span>  <span class="o">/*</span> <span class="ow">or</span> <span class="n">FLANN_INDEX_KDTREE</span><span class="p">,</span> <span class="n">FLANN_INDEX_KMEANS</span><span class="p">,</span> <span class="o">...</span> <span class="o">/*</span>
+   <span class="n">p</span><span class="o">.</span><span class="n">target_precision</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">;</span>  <span class="o">/*</span> <span class="n">want</span> <span class="mi">90</span><span class="o">%</span> <span class="n">target</span> <span class="n">precision</span> <span class="o">*/</span>
+
+   <span class="o">/*</span> <span class="n">compute</span> <span class="n">the</span> <span class="mi">3</span> <span class="n">nearest</span><span class="o">-</span><span class="n">neighbors</span> <span class="n">of</span> <span class="n">each</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">testset</span> <span class="o">*/</span>
+   <span class="n">flann_find_nearest_neighbors</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">testset</span><span class="p">,</span> <span class="n">t_rows</span><span class="p">,</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">dists</span><span class="p">,</span> <span class="n">nn</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">);</span>
+
+   <span class="o">...</span>
+   <span class="n">free</span><span class="p">(</span><span class="n">dataset</span><span class="p">);</span>
+   <span class="n">free</span><span class="p">(</span><span class="n">testset</span><span class="p">);</span>
+   <span class="n">free</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+   <span class="n">free</span><span class="p">(</span><span class="n">dists</span><span class="p">);</span>
+
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>MATLAB</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">single</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">10000</span><span class="p">));</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">single</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">1000</span><span class="p">));</span>
+
+<span class="o">%</span> <span class="n">define</span> <span class="n">index</span> <span class="ow">and</span> <span class="n">search</span> <span class="n">parameters</span>
+<span class="n">params</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="s1">&#39;kdtree&#39;</span><span class="p">;</span>
+<span class="n">params</span><span class="o">.</span><span class="n">trees</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+<span class="n">params</span><span class="o">.</span><span class="n">checks</span> <span class="o">=</span> <span class="mi">64</span><span class="p">;</span>
+
+<span class="o">%</span> <span class="n">perform</span> <span class="n">the</span> <span class="n">nearest</span><span class="o">-</span><span class="n">neighbor</span> <span class="n">search</span>
+<span class="p">[</span><span class="n">result</span><span class="p">,</span> <span class="n">dists</span><span class="p">]</span> <span class="o">=</span> <span class="n">flann_search</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="n">testset</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">params</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Python</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyflann</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+
+<span class="n">flann</span> <span class="o">=</span> <span class="n">FLANN</span><span class="p">()</span>
+<span class="n">result</span><span class="p">,</span><span class="n">dists</span> <span class="o">=</span> <span class="n">flann</span><span class="o">.</span><span class="n">nn</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="n">testset</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;kmeans&quot;</span><span class="p">,</span>
+               <span class="n">branching</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">checks</span><span class="o">=</span><span class="mi">16</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Ruby</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>require &#39;flann&#39; # also requires NMatrix
+
+dataset = NMatrix.random([10000,128])
+testset = NMatrix.random([1000,128])
+
+index   = Flann::Index.new(dataset) do |params|
+  params[:algorithm]  = :kmeans
+  params[:branching]  = 32
+  params[:iterations] = 7
+  params[:checks]     = 16
+end
+speedup = index.build! # this is optional
+
+results, distances = index.nearest_neighbors(testset, 5)
+
+index.save &quot;my_index.save&quot;
+
+# Alternatively, without an index:
+results, distances = Flann.nearest_neighbors(dataset, testset, 5,
+                      algorithm: :kmeans, branching: 32,
+                      iterations: 7, checks: 16)
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<span id="document-using"></span><div class="section" id="using-flann">
+<h2>Using FLANN<a class="headerlink" href="#using-flann" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="using-flann-from-c">
+<h3>Using FLANN from C++<a class="headerlink" href="#using-flann-from-c" title="Permalink to this headline">¶</a></h3>
+<p>The core of the FLANN library is written in C++. To make use of the full
+power and flexibility of the templated code one should use the C++
+bindings if possible. To use the C++ bindings you only need to include
+the the library header file <code class="docutils literal notranslate"><span class="pre">flann.hpp</span></code>. An example of the compile
+command that must be used will look something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>g++ flann_example.cpp -I $FLANN_ROOT/include -o flann_example_cpp
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">$FLANN_ROOT</span></code> is the library main directory.</p>
+<p>The following sections describe the public C++ API.</p>
+<div class="section" id="flann-index">
+<span id="sec-flann-index"></span><h4>flann::Index<a class="headerlink" href="#flann-index" title="Permalink to this headline">¶</a></h4>
+<p>The FLANN nearest neighbor index class. This class is used to abstract
+different types of nearest neighbor search indexes. The class is
+templated on the distance functor to be used for computing distances
+between pairs of features.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">namespace</span> <span class="n">flann</span>
+<span class="p">{</span>
+    <span class="n">template</span><span class="o">&lt;</span><span class="n">typename</span> <span class="n">Distance</span><span class="o">&gt;</span>
+    <span class="k">class</span> <span class="nc">Index</span>
+    <span class="p">{</span>
+    <span class="n">typedef</span> <span class="n">typename</span> <span class="n">Distance</span><span class="p">::</span><span class="n">ElementType</span> <span class="n">ElementType</span><span class="p">;</span>
+    <span class="n">typedef</span> <span class="n">typename</span> <span class="n">Distance</span><span class="p">::</span><span class="n">ResultType</span> <span class="n">DistanceType</span><span class="p">;</span>
+    <span class="n">public</span><span class="p">:</span>
+        <span class="n">Index</span><span class="p">(</span><span class="n">const</span> <span class="n">IndexParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">,</span> <span class="n">Distance</span> <span class="n">distance</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">()</span> <span class="p">);</span>
+
+        <span class="n">Index</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">points</span><span class="p">,</span> <span class="n">const</span> <span class="n">IndexParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">,</span>
+                <span class="n">Distance</span> <span class="n">distance</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">()</span> <span class="p">);</span>
+
+    <span class="o">~</span><span class="n">Index</span><span class="p">();</span>
+
+    <span class="n">void</span> <span class="n">buildIndex</span><span class="p">();</span>
+
+        <span class="n">void</span> <span class="n">buildIndex</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">points</span><span class="p">);</span>
+
+        <span class="n">void</span> <span class="n">addPoints</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">points</span><span class="p">,</span>
+                       <span class="nb">float</span> <span class="n">rebuild_threshold</span> <span class="o">=</span> <span class="mi">2</span><span class="p">);</span>
+
+        <span class="n">void</span> <span class="n">removePoint</span><span class="p">(</span><span class="n">size_t</span> <span class="n">point_id</span><span class="p">);</span>
+
+        <span class="n">ElementType</span><span class="o">*</span> <span class="n">getPoint</span><span class="p">(</span><span class="n">size_t</span> <span class="n">point_id</span><span class="p">);</span>
+
+    <span class="nb">int</span> <span class="n">knnSearch</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">queries</span><span class="p">,</span>
+               <span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;&amp;</span> <span class="n">indices</span><span class="p">,</span>
+               <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">DistanceType</span><span class="o">&gt;&amp;</span> <span class="n">dists</span><span class="p">,</span>
+               <span class="n">size_t</span> <span class="n">knn</span><span class="p">,</span>
+               <span class="n">const</span> <span class="n">SearchParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">);</span>
+
+        <span class="nb">int</span> <span class="n">knnSearch</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">queries</span><span class="p">,</span>
+                       <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">indices</span><span class="p">,</span>
+                       <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">DistanceType</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">dists</span><span class="p">,</span>
+                       <span class="n">size_t</span> <span class="n">knn</span><span class="p">,</span>
+                       <span class="n">const</span> <span class="n">SearchParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">);</span>
+
+    <span class="nb">int</span> <span class="n">radiusSearch</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">queries</span><span class="p">,</span>
+             <span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;&amp;</span> <span class="n">indices</span><span class="p">,</span>
+             <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">DistanceType</span><span class="o">&gt;&amp;</span> <span class="n">dists</span><span class="p">,</span>
+             <span class="nb">float</span> <span class="n">radius</span><span class="p">,</span>
+             <span class="n">const</span> <span class="n">SearchParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">);</span>
+
+        <span class="nb">int</span> <span class="n">radiusSearch</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">queries</span><span class="p">,</span>
+                          <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">indices</span><span class="p">,</span>
+                          <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">DistanceType</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">dists</span><span class="p">,</span>
+                          <span class="nb">float</span> <span class="n">radius</span><span class="p">,</span>
+                          <span class="n">const</span> <span class="n">SearchParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">);</span>
+
+    <span class="n">void</span> <span class="n">save</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">filename</span><span class="p">);</span>
+
+    <span class="nb">int</span> <span class="n">veclen</span><span class="p">()</span> <span class="n">const</span><span class="p">;</span>
+
+    <span class="nb">int</span> <span class="n">size</span><span class="p">()</span> <span class="n">const</span><span class="p">;</span>
+
+    <span class="n">IndexParams</span> <span class="n">getParameters</span><span class="p">()</span> <span class="n">const</span><span class="p">;</span>
+
+        <span class="n">flann_algorithm_t</span> <span class="n">getType</span><span class="p">()</span> <span class="n">const</span><span class="p">;</span>
+
+    <span class="p">};</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>The Distance functor</strong></p>
+<p>The distance functor is a class whose <code class="docutils literal notranslate"><span class="pre">operator()</span></code> computes the
+distance between two features. If the distance is also a kd-tree
+compatible distance it should also provide an <code class="docutils literal notranslate"><span class="pre">accum_dist()</span></code> method
+that computes the distance between individual feature dimensions. A
+typical distance functor looks like this (see the <code class="docutils literal notranslate"><span class="pre">dist.h</span></code> file for
+more examples):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+<span class="n">struct</span> <span class="n">L2</span>
+<span class="p">{</span>
+    <span class="n">typedef</span> <span class="nb">bool</span> <span class="n">is_kdtree_distance</span><span class="p">;</span>
+
+    <span class="n">typedef</span> <span class="n">T</span> <span class="n">ElementType</span><span class="p">;</span>
+    <span class="n">typedef</span> <span class="n">typename</span> <span class="n">Accumulator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">::</span><span class="n">Type</span> <span class="n">ResultType</span><span class="p">;</span>
+
+    <span class="n">template</span> <span class="o">&lt;</span><span class="n">typename</span> <span class="n">Iterator1</span><span class="p">,</span> <span class="n">typename</span> <span class="n">Iterator2</span><span class="o">&gt;</span>
+    <span class="n">ResultType</span> <span class="n">operator</span><span class="p">()(</span><span class="n">Iterator1</span> <span class="n">a</span><span class="p">,</span> <span class="n">Iterator2</span> <span class="n">b</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">size</span><span class="p">,</span>
+                          <span class="n">ResultType</span> <span class="o">/*</span><span class="n">worst_dist</span><span class="o">*/</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">const</span>
+    <span class="p">{</span>
+        <span class="n">ResultType</span> <span class="n">result</span> <span class="o">=</span> <span class="n">ResultType</span><span class="p">();</span>
+        <span class="n">ResultType</span> <span class="n">diff</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="o">*</span><span class="n">a</span><span class="o">++</span> <span class="o">-</span> <span class="o">*</span><span class="n">b</span><span class="o">++</span><span class="p">;</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="n">diff</span><span class="o">*</span><span class="n">diff</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">template</span> <span class="o">&lt;</span><span class="n">typename</span> <span class="n">U</span><span class="p">,</span> <span class="n">typename</span> <span class="n">V</span><span class="o">&gt;</span>
+    <span class="n">inline</span> <span class="n">ResultType</span> <span class="n">accum_dist</span><span class="p">(</span><span class="n">const</span> <span class="n">U</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="n">const</span> <span class="n">V</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="n">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>In addition to <code class="docutils literal notranslate"><span class="pre">operator()</span></code> and <code class="docutils literal notranslate"><span class="pre">accum_dist()</span></code>, a distance functor
+should also define the <code class="docutils literal notranslate"><span class="pre">ElementType</span></code> and the <code class="docutils literal notranslate"><span class="pre">ResultType</span></code> as the
+types of the elements it operates on and the type of the result it
+computes.</p>
+<div class="line-block">
+<div class="line">If a distance functor can be used as a kd-tree distance (meaning that
+the full distance between a pair of features can be accumulated from
+the partial distances between the individual dimensions) a typedef
+<code class="docutils literal notranslate"><span class="pre">is_kdtree_distance</span></code> should be present inside the distance functor.
+If the distance is not a kd-tree distance, but it’s a distance in a
+vector space (the individual dimensions of the elements it operates on
+can be accessed independently) a typedef <code class="docutils literal notranslate"><span class="pre">is_vector_space_distance</span></code>
+should be defined inside the functor. If neither typedef is defined,
+the distance is assumed to be a metric distance and will only be used
+with indexes operating on generic metric distances.</div>
+<div class="line"><strong>flann::Index::Index</strong> Constructs a nearest neighbor search index for
+a given dataset.</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Index</span><span class="p">(</span><span class="n">const</span> <span class="n">IndexParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">,</span> <span class="n">Distance</span> <span class="n">distance</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">()</span> <span class="p">);</span>
+
+<span class="n">Index</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">points</span><span class="p">,</span> <span class="n">const</span> <span class="n">IndexParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">,</span>
+        <span class="n">Distance</span> <span class="n">distance</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">()</span> <span class="p">);</span>
+</pre></div>
+</div>
+<dl>
+<dt>points</dt><dd><p>Matrix containing the features(points) that should be indexed, stored
+in a row-major order (one point on each row of the matrix). The size
+of the matrix is <span class="math notranslate nohighlight">\(num\_features \times dimensionality\)</span>.</p>
+</dd>
+<dt>params</dt><dd><p>Structure containing the index parameters. The type of index that
+will be constructed depends on the type of this parameter. The
+possible parameter types are:</p>
+<p><strong>LinearIndexParams</strong> When passing an object of this type, the index
+will perform a linear, brute-force search.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">LinearIndexParams</span> <span class="p">:</span> <span class="n">public</span> <span class="n">IndexParams</span>
+<span class="p">{</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>KDTreeIndexParams</strong> When passing an object of this type the index
+constructed will consist of a set of randomized kd-trees which will
+be searched in parallel.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">KDTreeIndexParams</span> <span class="p">:</span> <span class="n">public</span> <span class="n">IndexParams</span>
+<span class="p">{</span>
+      <span class="n">KDTreeIndexParams</span><span class="p">(</span> <span class="nb">int</span> <span class="n">trees</span> <span class="o">=</span> <span class="mi">4</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>trees</dt><dd><p>The number of parallel kd-trees to use. Good values are in the
+range [1..16]</p>
+</dd>
+</dl>
+<p><strong>KMeansIndexParams</strong> When passing an object of this type the index
+constructed will be a hierarchical k-means tree.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">KMeansIndexParams</span> <span class="p">:</span> <span class="n">public</span> <span class="n">IndexParams</span>
+<span class="p">{</span>
+    <span class="n">KMeansIndexParams</span><span class="p">(</span> <span class="nb">int</span> <span class="n">branching</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="nb">int</span> <span class="n">iterations</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span>
+            <span class="n">flann_centers_init_t</span> <span class="n">centers_init</span> <span class="o">=</span> <span class="n">FLANN_CENTERS_RANDOM</span><span class="p">,</span>
+            <span class="nb">float</span> <span class="n">cb_index</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>branching</dt><dd><p>The branching factor to use for the hierarchical k-means tree</p>
+</dd>
+<dt>iterations</dt><dd><p>The maximum number of iterations to use in the k-means clustering
+stage when building the k-means tree. If a value of -1 is used
+here, it means that the k-means clustering should be iterated
+until convergence</p>
+</dd>
+<dt>centers_init</dt><dd><p>The algorithm to use for selecting the initial centers when
+performing a k-means clustering step. The possible values are
+CENTERS_RANDOM (picks the initial cluster centers randomly),
+CENTERS_GONZALES (picks the initial centers using Gonzales’
+algorithm) and CENTERS_KMEANSPP (picks the initial centers using
+the algorithm suggested in (Arthur and Vassilvitskii 2007))</p>
+</dd>
+<dt>cb_index</dt><dd><p>This parameter (cluster boundary index) influences the way
+exploration is performed in the hierarchical kmeans tree. When
+<code class="docutils literal notranslate"><span class="pre">cb_index</span></code> is zero the next kmeans domain to be explored is
+choosen to be the one with the closest center. A value greater
+then zero also takes into account the size of the domain.</p>
+</dd>
+</dl>
+<p><strong>CompositeIndexParams</strong> When using a parameters object of this type
+the index created combines the randomized kd-trees and the
+hierarchical k-means tree.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">CompositeIndexParams</span> <span class="p">:</span> <span class="n">public</span> <span class="n">IndexParams</span>
+<span class="p">{</span>
+        <span class="n">CompositeIndexParams</span><span class="p">(</span> <span class="nb">int</span> <span class="n">trees</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+                          <span class="nb">int</span> <span class="n">branching</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+                          <span class="nb">int</span> <span class="n">iterations</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span>
+                          <span class="n">flann_centers_init_t</span> <span class="n">centers_init</span> <span class="o">=</span> <span class="n">FLANN_CENTERS_RANDOM</span><span class="p">,</span>
+                          <span class="nb">float</span> <span class="n">cb_index</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>KDTreeSingleIndexParams</strong> When passing an object of this type the
+index will contain a single kd-tree optimized for searching lower
+dimensionality data (for example 3D point clouds)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">KDTreeSingleIndexParams</span> <span class="p">:</span> <span class="n">public</span> <span class="n">IndexParams</span>
+<span class="p">{</span>
+      <span class="n">KDTreeSingleIndexParams</span><span class="p">(</span> <span class="nb">int</span> <span class="n">leaf_max_size</span> <span class="o">=</span> <span class="mi">10</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>max_leaf_size</dt><dd><p>The maximum number of points to have in a leaf for not branching
+the tree any more.</p>
+</dd>
+</dl>
+<p><strong>KDTreeCuda3dIndexParams</strong> When passing an object of this type the
+index will be a single kd-tree that is built and performs searches on
+a CUDA compatible GPU. Search performance is best for large numbers
+of search and query points. For more information, see section
+<a class="reference external" href="#sec:flann::cuda">3.1.10</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">KDTreeCuda3dIndexParams</span> <span class="p">:</span> <span class="n">public</span> <span class="n">IndexParams</span>
+<span class="p">{</span>
+    <span class="n">KDTreeCuda3dIndexParams</span><span class="p">(</span> <span class="nb">int</span> <span class="n">leaf_max_size</span> <span class="o">=</span> <span class="mi">64</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>max_leaf_size</dt><dd><p>The maximum number of points to have in a leaf for not branching
+the tree any more.</p>
+</dd>
+</dl>
+<p><strong>HierarchicalClusteringIndexParams</strong> When passing an object of this
+type the index constructed will be a hierarchical clustering index.
+This type of index works with any metric distance and can be used for
+matching binary features using Hamming distances.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">HierarchicalClusteringIndexParams</span> <span class="p">:</span> <span class="n">public</span> <span class="n">IndexParams</span>
+<span class="p">{</span>
+    <span class="n">HierarchicalClusteringIndexParams</span><span class="p">(</span><span class="nb">int</span> <span class="n">branching</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+                              <span class="n">flann_centers_init_t</span> <span class="n">centers_init</span> <span class="o">=</span> <span class="n">FLANN_CENTERS_RANDOM</span><span class="p">,</span>
+                              <span class="nb">int</span> <span class="n">trees</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">int</span> <span class="n">leaf_max_size</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>branching</dt><dd><p>The branching factor to use for the hierarchical clustering tree</p>
+</dd>
+<dt>centers_init</dt><dd><p>The algorithm to use for selecting the initial centers when
+performing a k-means clustering step. The possible values are
+CENTERS_RANDOM (picks the initial cluster centers randomly),
+CENTERS_GONZALES (picks the initial centers using Gonzales’
+algorithm) and CENTERS_KMEANSPP (picks the initial centers using
+the algorithm suggested in (Arthur and Vassilvitskii 2007))</p>
+</dd>
+<dt>trees</dt><dd><p>The number of parallel trees to use. Good values are in the range
+[3..8]</p>
+</dd>
+<dt>leaf_size</dt><dd><p>The maximum number of points a leaf node should contain.</p>
+</dd>
+</dl>
+<p><strong>LshIndexParams</strong> When passing an object of this type the index
+constructed will be a multi-probe LSH (Locality-Sensitive Hashing)
+index. This type of index can only be used for matching binary
+features using Hamming distances.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">LshIndexParams</span> <span class="p">:</span> <span class="n">public</span> <span class="n">IndexParams</span>
+<span class="p">{</span>
+    <span class="n">LshIndexParams</span><span class="p">(</span><span class="n">unsigned</span> <span class="nb">int</span> <span class="n">table_number</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+                  <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">key_size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+                  <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">multi_probe_level</span> <span class="o">=</span> <span class="mi">2</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>table_number</dt><dd><p>The number of hash tables to use</p>
+</dd>
+<dt>key_size</dt><dd><p>The length of the key in the hash tables</p>
+</dd>
+<dt>multi_probe_level</dt><dd><p>Number of levels to use in multi-probe (0 for standard LSH)</p>
+</dd>
+</dl>
+<p><strong>AutotunedIndexParams</strong> When passing an object of this type the
+index created is automatically tuned to offer the best performance,
+by choosing the optimal index type (randomized kd-trees, hierarchical
+kmeans, linear) and parameters for the dataset provided.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">AutotunedIndexParams</span> <span class="p">:</span> <span class="n">public</span> <span class="n">IndexParams</span>
+<span class="p">{</span>
+    <span class="n">AutotunedIndexParams</span><span class="p">(</span> <span class="nb">float</span> <span class="n">target_precision</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span>
+              <span class="nb">float</span> <span class="n">build_weight</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+              <span class="nb">float</span> <span class="n">memory_weight</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+              <span class="nb">float</span> <span class="n">sample_fraction</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>target_precision</dt><dd><p>Is a number between 0 and 1 specifying the percentage of the
+approximate nearest-neighbor searches that return the exact
+nearest-neighbor. Using a higher value for this parameter gives
+more accurate results, but the search takes longer. The optimum
+value usually depends on the application.</p>
+</dd>
+<dt>build_weight</dt><dd><p>Specifies the importance of the index build time raported to the
+nearest-neighbor search time. In some applications it’s acceptable
+for the index build step to take a long time if the subsequent
+searches in the index can be performed very fast. In other
+applications it’s required that the index be build as fast as
+possible even if that leads to slightly longer search times.</p>
+</dd>
+<dt>memory_weight</dt><dd><p>Is used to specify the tradeoff between time (index build time and
+search time) and memory used by the index. A value less than 1
+gives more importance to the time spent and a value greater than 1
+gives more importance to the memory usage.</p>
+</dd>
+<dt>sample_fraction</dt><dd><p>Is a number between 0 and 1 indicating what fraction of the
+dataset to use in the automatic parameter configuration algorithm.
+Running the algorithm on the full dataset gives the most accurate
+results, but for very large datasets can take longer than desired.
+In such case using just a fraction of the data helps speeding up
+this algorithm while still giving good approximations of the
+optimum parameters.</p>
+</dd>
+</dl>
+<p><strong>SavedIndexParams</strong> This object type is used for loading a
+previously saved index from the disk.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">SavedIndexParams</span> <span class="p">:</span> <span class="n">public</span> <span class="n">IndexParams</span>
+<span class="p">{</span>
+      <span class="n">SavedIndexParams</span><span class="p">(</span> <span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">filename</span> <span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>filename</dt><dd><p>The filename in which the index was saved.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="flann-index-buildindex">
+<h4>flann::Index::buildIndex<a class="headerlink" href="#flann-index-buildindex" title="Permalink to this headline">¶</a></h4>
+<p>Builds the nearest neighbor search index. There are two versions of the
+<code class="docutils literal notranslate"><span class="pre">buildIndex</span></code> method, one that uses the points provided as argument and
+one that uses the points provided to the constructor when the object was
+constructed.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">buildIndex</span><span class="p">();</span>
+
+<span class="n">void</span> <span class="n">buildIndex</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">points</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="flann-index-addpoints">
+<h4>flann::Index::addPoints<a class="headerlink" href="#flann-index-addpoints" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">addPoints</span></code> method can be used to incrementally add points to the
+index after the index was build. To avoid the index getting unbalanced,
+the <code class="docutils literal notranslate"><span class="pre">addPoints</span></code> method has the option of rebuilding the index after a
+large number of points have been added. The <code class="docutils literal notranslate"><span class="pre">rebuild_threshold</span></code>
+parameter controls when the index is rebuild, by default this is done
+when it doubles in size (<code class="docutils literal notranslate"><span class="pre">rebuild_threshold</span></code> = 2).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">addPoints</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">points</span><span class="p">,</span> <span class="nb">float</span> <span class="n">rebuild_threshold</span> <span class="o">=</span> <span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="flann-index-removepoint">
+<h4>flann::Index::removePoint<a class="headerlink" href="#flann-index-removepoint" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">removePoint</span></code> method removes one point with the specified
+<code class="docutils literal notranslate"><span class="pre">point_id</span></code> from the index. The indices (of the remaining points)
+returned by the nearest neighbor operations do not change when points
+are removed from the index.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">removePoint</span><span class="p">(</span><span class="n">size_t</span> <span class="n">point_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="flann-index-getpoint">
+<h4>flann::Index::getPoint<a class="headerlink" href="#flann-index-getpoint" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">getPoint</span></code> method returns a pointer to the data point with the
+specified <code class="docutils literal notranslate"><span class="pre">point_id</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ElementType</span><span class="o">*</span> <span class="n">getPoint</span><span class="p">(</span><span class="n">size_t</span> <span class="n">point_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="flann-index-knnsearch">
+<h4>flann::Index::knnSearch<a class="headerlink" href="#flann-index-knnsearch" title="Permalink to this headline">¶</a></h4>
+<p>Performs a K-nearest neighbor search for a set of query points. There
+are two signatures for this method, one that takes pre-allocated
+<code class="docutils literal notranslate"><span class="pre">flann::Matrix</span></code> objects for returning the indices of and distances to
+the neighbors found, and one that takes <code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::vector&gt;</span></code>
+that will re resized automatically as needed.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">Index</span><span class="p">::</span><span class="n">knnSearch</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">queries</span><span class="p">,</span>
+        <span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;&amp;</span> <span class="n">indices</span><span class="p">,</span>
+        <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">DistanceType</span><span class="o">&gt;&amp;</span> <span class="n">dists</span><span class="p">,</span>
+        <span class="n">size_t</span> <span class="n">knn</span><span class="p">,</span>
+        <span class="n">const</span> <span class="n">SearchParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">);</span>
+
+<span class="nb">int</span> <span class="n">Index</span><span class="p">::</span><span class="n">knnSearch</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">queries</span><span class="p">,</span>
+                <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">indices</span><span class="p">,</span>
+                <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">DistanceType</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">dists</span><span class="p">,</span>
+                <span class="n">size_t</span> <span class="n">knn</span><span class="p">,</span>
+                <span class="n">const</span> <span class="n">SearchParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">);</span>
+</pre></div>
+</div>
+<dl>
+<dt>queries</dt><dd><p>Matrix containing the query points. Size of matrix is
+(<span class="math notranslate nohighlight">\(num\_queries \times dimentionality\)</span>)</p>
+</dd>
+<dt>indices</dt><dd><p>Matrix that will contain the indices of the K-nearest neighbors found
+(size should be at least <span class="math notranslate nohighlight">\(num\_queries \times knn\)</span> for the
+pre-allocated version).</p>
+</dd>
+<dt>dists</dt><dd><p>Matrix that will contain the distances to the K-nearest neighbors
+found (size should be at least <span class="math notranslate nohighlight">\(num\_queries \times knn\)</span> for
+the pre-allocated version).
+<em>Note:</em> For Euclidean distances, the <code class="docutils literal notranslate"><span class="pre">flann::L2</span></code> functor computes
+squared distances, so the value passed here needs to be a squared
+distance as well.</p>
+</dd>
+<dt>knn</dt><dd><p>Number of nearest neighbors to search for.</p>
+</dd>
+<dt>params</dt><dd><p>Search parameters. Structure containing parameters used during
+search.</p>
+<p><strong>SearchParameters</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">SearchParams</span>
+<span class="p">{</span>
+    <span class="n">SearchParams</span><span class="p">(</span><span class="nb">int</span> <span class="n">checks</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+        <span class="nb">float</span> <span class="n">eps</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nb">bool</span> <span class="nb">sorted</span> <span class="o">=</span> <span class="n">true</span><span class="p">);</span>
+
+    <span class="nb">int</span> <span class="n">checks</span><span class="p">;</span>
+    <span class="nb">float</span> <span class="n">eps</span><span class="p">;</span>
+    <span class="nb">bool</span> <span class="nb">sorted</span><span class="p">;</span>
+    <span class="nb">int</span> <span class="n">max_neighbors</span><span class="p">;</span>
+    <span class="n">tri_type</span> <span class="n">use_heap</span><span class="p">;</span>
+    <span class="nb">int</span> <span class="n">cores</span><span class="p">;</span>
+    <span class="nb">bool</span> <span class="n">matrices_in_gpu_ram</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>checks</dt><dd><p>specifies the maximum leafs to visit when searching for
+neighbours. A higher value for this parameter would give better
+search precision, but also take more time. For all leafs to be
+checked use the value <code class="docutils literal notranslate"><span class="pre">FLANN_CHECKS_UNLIMITED</span></code>. If automatic
+configuration was used when the index was created, the number of
+checks required to achieve the specified precision was also
+computed, to use that value specify <code class="docutils literal notranslate"><span class="pre">FLANN_CHECKS_AUTOTUNED</span></code>.</p>
+</dd>
+<dt>eps</dt><dd><p>Search for eps-approximate neighbors (only used by
+KDTreeSingleIndex and KDTreeCuda3dIndex).</p>
+</dd>
+<dt>sorted</dt><dd><p>Used only by radius search, specifies if the neighbors returned
+should be sorted by distance.</p>
+</dd>
+<dt>max_neighbours</dt><dd><p>Specifies the maximum number of neighbors radius search should
+return (default: -1 = unlimited). Only used for radius search.</p>
+</dd>
+<dt>use_heap</dt><dd><p>Use a heap data structure to manage the list of neighbors
+internally (possible values: FLANN_False, FLANN_True,
+FLANN_Undefined). A heap is more efficient for a large number of
+neighbors and less efficient for a small number of neighbors.
+Default value is FLANN_Undefined, which lets the code choose the
+best option depending on the number of neighbors requested. Only
+used for KNN search.</p>
+</dd>
+<dt>cores</dt><dd><p>How many cores to assign to the search (specify 0 for automatic
+core selection).</p>
+</dd>
+<dt>matrices_in_gpu_ram</dt><dd><p>for GPU search indicates if matrices are already in GPU ram.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="flann-index-radiussearch">
+<h4>flann::Index::radiusSearch<a class="headerlink" href="#flann-index-radiussearch" title="Permalink to this headline">¶</a></h4>
+<p>Performs a radius nearest neighbor search for a set of query points.
+There are two signatures for this method, one that takes pre-allocated
+<code class="docutils literal notranslate"><span class="pre">flann::Matrix</span></code> objects for returning the indices of and distances to
+the neighbors found, and one that takes <code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::vector&gt;</span></code>
+that will resized automatically as needed.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">Index</span><span class="p">::</span><span class="n">radiusSearch</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">queries</span><span class="p">,</span>
+          <span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;&amp;</span> <span class="n">indices</span><span class="p">,</span>
+          <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">DistanceType</span><span class="o">&gt;&amp;</span> <span class="n">dists</span><span class="p">,</span>
+          <span class="nb">float</span> <span class="n">radius</span><span class="p">,</span>
+          <span class="n">const</span> <span class="n">SearchParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">);</span>
+
+<span class="nb">int</span> <span class="n">Index</span><span class="p">::</span><span class="n">radiusSearch</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">queries</span><span class="p">,</span>
+                  <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span> <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">indices</span><span class="p">,</span>
+                  <span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">DistanceType</span><span class="o">&gt;</span> <span class="o">&gt;&amp;</span> <span class="n">dists</span><span class="p">,</span>
+                  <span class="nb">float</span> <span class="n">radius</span><span class="p">,</span>
+                  <span class="n">const</span> <span class="n">SearchParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">);</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>queries</dt><dd><p>The query point. Size of matrix is
+(<span class="math notranslate nohighlight">\(num\_queries \times dimentionality\)</span>).</p>
+</dd>
+<dt>indices</dt><dd><p>Matrix that will contain the indices of the K-nearest neighbors
+found. For the pre-allocated version, only as many neighbors are
+returned as many columns in this matrix. If fewer neighbors are found
+than columns in this matrix, the element after that last index
+returned is -1. In case of the std::vector version, the rows will be
+resized as needed to fit all the neighbors to be returned, except if
+the “max_neighbors” search parameter is set.</p>
+</dd>
+<dt>dists</dt><dd><p>Matrix that will contain the distances to the K-nearest neighbors
+found. The same number of values are returned here as for the
+<code class="docutils literal notranslate"><span class="pre">indices</span></code> matrix.
+<em>Note:</em> For Euclidean distances, the <code class="docutils literal notranslate"><span class="pre">flann::L2</span></code> functor computes
+squared distances, so the value passed here needs to be a squared
+distance as well.</p>
+</dd>
+<dt>radius</dt><dd><p>The search radius.
+<em>Note:</em> For Euclidean distances, the <code class="docutils literal notranslate"><span class="pre">flann::L2</span></code> functor computes
+squared distances, so the value passed here needs to be a squared
+distance as well.</p>
+</dd>
+<dt>params</dt><dd><p>Search parameters.</p>
+</dd>
+</dl>
+<p>The method returns the number of nearest neighbors found.</p>
+</div>
+<div class="section" id="flann-index-save">
+<h4>flann::Index::save<a class="headerlink" href="#flann-index-save" title="Permalink to this headline">¶</a></h4>
+<p>Saves the index to a file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">Index</span><span class="p">::</span><span class="n">save</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">string</span> <span class="n">filename</span><span class="p">);</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>filename</dt><dd><p>The file to save the index to</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="flann-hierarchicalclustering">
+<span id="id1"></span><h4>flann::hierarchicalClustering<a class="headerlink" href="#flann-hierarchicalclustering" title="Permalink to this headline">¶</a></h4>
+<p>Clusters the given points by constructing a hierarchical k-means tree
+and choosing a cut in the tree that minimizes the clusters’ variance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">&lt;</span><span class="n">typename</span> <span class="n">Distance</span><span class="o">&gt;</span>
+<span class="nb">int</span> <span class="n">hierarchicalClustering</span><span class="p">(</span><span class="n">const</span> <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">typename</span> <span class="n">Distance</span><span class="p">::</span><span class="n">ElementType</span><span class="o">&gt;&amp;</span> <span class="n">points</span><span class="p">,</span>
+    <span class="n">Matrix</span><span class="o">&lt;</span><span class="n">typename</span> <span class="n">Distance</span><span class="p">::</span><span class="n">ResultType</span><span class="o">&gt;&amp;</span> <span class="n">centers</span><span class="p">,</span>
+    <span class="n">const</span> <span class="n">KMeansIndexParams</span><span class="o">&amp;</span> <span class="n">params</span><span class="p">,</span>
+    <span class="n">Distance</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>features</dt><dd><p>The points to be clustered</p>
+</dd>
+<dt>centers</dt><dd><p>The centers of the clusters obtained. The number of rows in this
+matrix represents the number of clusters desired. However, because of
+the way the cut in the hierarchical tree is choosen, the number of
+clusters computed will be the highest number of the form
+<span class="math notranslate nohighlight">\((branching-1)*k+1\)</span> that’s lower than the number of clusters
+desired, where <span class="math notranslate nohighlight">\(branching\)</span> is the tree’s branching factor (see
+description of the KMeansIndexParams).</p>
+</dd>
+<dt>params</dt><dd><p>Parameters used in the construction of the hierarchical k-means tree</p>
+</dd>
+</dl>
+<p>The function returns the number of clusters computed.</p>
+</div>
+<div class="section" id="flann-kdtreecuda3dindex">
+<span id="sec-flann-cuda"></span><h4>flann::KdTreeCuda3dIndex<a class="headerlink" href="#flann-kdtreecuda3dindex" title="Permalink to this headline">¶</a></h4>
+<p>FLANN provides a CUDA implementation of the kd-tree build and search
+algorithms to improve the build and query speed for large 3d data sets.
+This section will provide all the necessary information to use the
+<code class="docutils literal notranslate"><span class="pre">KdTreeCuda3dIndex</span></code> index type.</p>
+<p><strong>Building:</strong> If CMake detects a CUDA install during the build (see
+section <a class="reference external" href="#sec:downloading_and_compiling">2</a>), a library
+<code class="docutils literal notranslate"><span class="pre">libflann_cuda.so</span></code> will be built.</p>
+<p><strong>Basic Usage:</strong> To be able to use the new index type, you have to
+include the FLANN header this way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#define FLANN_USE_CUDA</span>
+<span class="c1">#include &lt;flann/flann.hpp&gt;</span>
+</pre></div>
+</div>
+<p>If you define the symbol <code class="docutils literal notranslate"><span class="pre">FLANN_USE_CUDA</span></code> before including the FLANN
+header, you will have to link <code class="docutils literal notranslate"><span class="pre">libflann_cuda.so</span></code> or
+<code class="docutils literal notranslate"><span class="pre">libflann_cuda_s.a</span></code> with your project. However, you will not have to
+compile your source code with <code class="docutils literal notranslate"><span class="pre">nvcc</span></code>, except if you use other CUDA
+code, of course.</p>
+<p>You can then create your index by using the <code class="docutils literal notranslate"><span class="pre">KDTreeCuda3dIndexParams</span></code>
+to create the index. The index will take care of copying all the data
+from and to the GPU for you, both for index creation and search.</p>
+<p>A word of caution: A general guideline for deciding whether to use the
+CUDA kd tree or a (multi-threaded) CPU implementation is hard to give,
+since it depends on the combination of CPU and GPU in each system and
+the data sets. For example, on a system with a Phenom II 955 CPU and a
+Geforce GTX 260 GPU, the maximum search speedup on a synthetic (random)
+data set is a factor of about 8-9 vs the single-core CPU search, and
+starts to be reached at about 100k search and query points. (This
+includes transfer times.) Build time does not profit as much from the
+GPU acceleration; here the benefit is about 2x at 200k points, but this
+largely depends on the data set. The only way to know which
+implementation is best suited is to try it.</p>
+<p><strong>Advanced Usage:</strong> In some cases, you might already have your data in a
+buffer on the GPU. In this case, you can re-use these buffers instead of
+copying the buffers back to system RAM for index creation and search.
+The way to do this is to pass GPU pointers via the <code class="docutils literal notranslate"><span class="pre">flann::Matrix</span></code>
+inputs and tell the index via the index and search params to treat the
+pointers as GPU pointers.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">thrust</span><span class="p">::</span><span class="n">device_vector</span><span class="o">&lt;</span><span class="n">float4</span><span class="o">&gt;</span>  <span class="n">points_vector</span><span class="p">(</span> <span class="n">n_points</span> <span class="p">);</span>
+<span class="o">//</span> <span class="o">...</span> <span class="n">fill</span> <span class="n">vector</span> <span class="n">here</span><span class="o">...</span>
+
+<span class="nb">float</span><span class="o">*</span> <span class="n">gpu_pointer</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="o">*</span><span class="p">)</span><span class="n">thrust</span><span class="p">::</span><span class="n">raw_pointer_cast</span><span class="p">(</span><span class="o">&amp;</span><span class="n">points_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">flann</span><span class="p">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span> <span class="n">matrix_gpu</span><span class="p">(</span><span class="n">gpu_pointer</span><span class="p">,</span><span class="n">n_points</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+
+<span class="n">flann</span><span class="p">::</span><span class="n">KDTreeCuda3dIndexParams</span> <span class="n">params</span><span class="p">;</span>
+<span class="n">params</span><span class="p">[</span><span class="s2">&quot;input_is_gpu_float4&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">true</span><span class="p">;</span>
+<span class="n">flann</span><span class="p">::</span><span class="n">Index</span><span class="o">&lt;</span><span class="n">flann</span><span class="p">::</span><span class="n">L2</span><span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">flannindex</span><span class="p">(</span> <span class="n">matrix_gpu</span><span class="p">,</span> <span class="n">params</span>  <span class="p">);</span>
+<span class="n">flannindex</span><span class="o">.</span><span class="n">buildIndex</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>First, a GPU buffer of float4 values is created and filled with
+points. <a class="footnote-reference brackets" href="#id10" id="id2">2</a></p>
+<p>Then, a GPU pointer to the buffer is stored in a flann matrix with 3
+columns and a stride of 4 (the last element in the <code class="docutils literal notranslate"><span class="pre">float4</span></code> should be
+zero).</p>
+<p>Last, the index is created. The <code class="docutils literal notranslate"><span class="pre">input_is_gpu_float4</span></code> flag tells the
+index to treat the matrix as a gpu buffer.</p>
+<p>Similarly, you can specify GPU buffers for the search routines that
+return the result via flann matrices (but not for those that return them
+via <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>s). To do this, the pointers in the index and dist
+matrices have to point to GPU buffers and the <code class="docutils literal notranslate"><span class="pre">cols</span></code> value has to be
+set to 3 (as we are dealing with 3d points). Here, any value for
+<code class="docutils literal notranslate"><span class="pre">stride</span></code> can be used.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flann</span><span class="p">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">indices_gpu</span><span class="p">(</span><span class="n">gpu_pointer_indices</span><span class="p">,</span><span class="n">n_points</span><span class="p">,</span> <span class="n">knn</span><span class="p">,</span> <span class="n">stride</span><span class="p">);</span>
+<span class="n">flann</span><span class="p">::</span><span class="n">Matrix</span><span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span> <span class="n">dists_gpu</span><span class="p">(</span><span class="n">gpu_pointer_dists</span><span class="p">,</span><span class="n">n_points</span><span class="p">,</span> <span class="n">knn</span><span class="p">,</span> <span class="n">stride</span><span class="p">);</span>
+
+<span class="n">flann</span><span class="p">::</span><span class="n">SearchParams</span> <span class="n">params</span><span class="p">;</span>
+<span class="n">params</span><span class="o">.</span><span class="n">matrices_in_gpu_ram</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+
+<span class="n">flannindex</span><span class="o">.</span><span class="n">knnSearch</span><span class="p">(</span> <span class="n">queries_gpu</span> <span class="p">,</span><span class="n">indices_gpu</span><span class="p">,</span><span class="n">dists_gpu</span><span class="p">,</span><span class="n">knn</span><span class="p">,</span> <span class="n">params</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Note that you cannot mix matrices in system and CPU ram here!</p>
+<p><strong>Search Parameters:</strong> The search routines support three parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">eps</span></code> - used for approximate knn search. The maximum possible error
+is <span class="math notranslate nohighlight">\(e= d_{best} * eps\)</span>, i.e. the distance of the returned
+neighbor is at maximum <span class="math notranslate nohighlight">\(eps\)</span> times larget than the distance to
+the real best neighbor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">use_heap</span></code> - used in knn and radius search. If set to true, a heap
+structure will be used in the search to keep track of the distance to
+the farthest neighbor. Beneficial with about <span class="math notranslate nohighlight">\(k&gt;64\)</span> elements.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sorted</span></code> - if set to true, the results of the radius and knn
+searches will be sorted in ascending order by their distance to the
+query point.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matrices_in_gpu_ram</span></code> - set to true to indicate that all (input and
+output) matrices are located in GPU RAM.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="using-flann-from-c-1">
+<span id="id3"></span><h3>Using FLANN from C<a class="headerlink" href="#using-flann-from-c-1" title="Permalink to this headline">¶</a></h3>
+<p>FLANN can be used in C programs through the C bindings provided with the
+library. Because there is no template support in C, there are bindings
+provided for the following data types: <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">char</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>,
+<code class="docutils literal notranslate"><span class="pre">float</span></code> and <code class="docutils literal notranslate"><span class="pre">double</span></code>. For each of the functions below there is a
+corresponding version for each of the for data types, for example for
+the function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flan_index_t</span> <span class="n">flann_build_index</span><span class="p">(</span><span class="nb">float</span><span class="o">*</span> <span class="n">dataset</span><span class="p">,</span> <span class="nb">int</span> <span class="n">rows</span><span class="p">,</span> <span class="nb">int</span> <span class="n">cols</span><span class="p">,</span> <span class="nb">float</span><span class="o">*</span> <span class="n">speedup</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>there are also the following versions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flan_index_t</span> <span class="n">flann_build_index_byte</span><span class="p">(</span><span class="n">unsigned</span> <span class="n">char</span><span class="o">*</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">rows</span><span class="p">,</span> <span class="nb">int</span> <span class="n">cols</span><span class="p">,</span> <span class="nb">float</span><span class="o">*</span> <span class="n">speedup</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+<span class="n">flan_index_t</span> <span class="n">flann_build_index_int</span><span class="p">(</span><span class="nb">int</span><span class="o">*</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">rows</span><span class="p">,</span> <span class="nb">int</span> <span class="n">cols</span><span class="p">,</span> <span class="nb">float</span><span class="o">*</span> <span class="n">speedup</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+<span class="n">flan_index_t</span> <span class="n">flann_build_index_float</span><span class="p">(</span><span class="nb">float</span><span class="o">*</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">rows</span><span class="p">,</span> <span class="nb">int</span> <span class="n">cols</span><span class="p">,</span> <span class="nb">float</span><span class="o">*</span> <span class="n">speedup</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+<span class="n">flan_index_t</span> <span class="n">flann_build_index_double</span><span class="p">(</span><span class="n">double</span><span class="o">*</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">rows</span><span class="p">,</span> <span class="nb">int</span> <span class="n">cols</span><span class="p">,</span> <span class="nb">float</span><span class="o">*</span> <span class="n">speedup</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="flann-build-index">
+<h4>flann_build_index()<a class="headerlink" href="#flann-build-index" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flan_index_t</span> <span class="n">flann_build_index</span><span class="p">(</span><span class="nb">float</span><span class="o">*</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">rows</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">cols</span><span class="p">,</span>
+    <span class="nb">float</span><span class="o">*</span> <span class="n">speedup</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function builds an index and return a reference to it. The
+arguments expected by this function are as follows:</p>
+<dl>
+<dt>dataset, rows and cols</dt><dd><ul class="simple">
+<li><p>are used to specify the input dataset of points: dataset is a</p></li>
+</ul>
+<p>pointer to a <span class="math notranslate nohighlight">\(\rm{rows} \times \rm{cols}\)</span> matrix stored in
+row-major order (one feature on each row)</p>
+</dd>
+<dt>speedup</dt><dd><ul class="simple">
+<li><p>is used to return the approximate speedup over linear search</p></li>
+</ul>
+<p>achieved when using the automatic index and parameter configuration
+(see section <a class="reference external" href="#sec:flann_build_index">3.3.1</a>)</p>
+</dd>
+<dt>flann_params</dt><dd><ul class="simple">
+<li><p>is a structure containing the parameters passed to the function.</p></li>
+</ul>
+<p>This structure is defined as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">FLANNParameters</span>
+<span class="p">{</span>
+    <span class="n">enum</span> <span class="n">flann_algorithm_t</span> <span class="n">algorithm</span><span class="p">;</span> <span class="o">/*</span> <span class="n">the</span> <span class="n">algorithm</span> <span class="n">to</span> <span class="n">use</span> <span class="o">*/</span>
+
+    <span class="o">/*</span> <span class="n">search</span> <span class="n">time</span> <span class="n">parameters</span> <span class="o">*/</span>
+    <span class="nb">int</span> <span class="n">checks</span><span class="p">;</span> <span class="o">/*</span> <span class="n">how</span> <span class="n">many</span> <span class="n">leafs</span> <span class="p">(</span><span class="n">features</span><span class="p">)</span> <span class="n">to</span> <span class="n">check</span> <span class="ow">in</span> <span class="n">one</span> <span class="n">search</span> <span class="o">*/</span>
+    <span class="nb">float</span> <span class="n">eps</span><span class="p">;</span> <span class="o">/*</span> <span class="n">eps</span> <span class="n">parameter</span> <span class="k">for</span> <span class="n">eps</span><span class="o">-</span><span class="n">knn</span> <span class="n">search</span> <span class="o">*/</span>
+    <span class="nb">int</span> <span class="nb">sorted</span><span class="p">;</span> <span class="o">/*</span> <span class="n">indicates</span> <span class="k">if</span> <span class="n">results</span> <span class="n">returned</span> <span class="n">by</span> <span class="n">radius</span> <span class="n">search</span> <span class="n">should</span> <span class="n">be</span>
+            <span class="nb">sorted</span> <span class="ow">or</span> <span class="ow">not</span> <span class="o">*/</span>
+    <span class="nb">int</span> <span class="n">max_neighbors</span><span class="p">;</span> <span class="o">/*</span> <span class="n">limits</span> <span class="n">the</span> <span class="n">maximum</span> <span class="n">number</span> <span class="n">of</span> <span class="n">neighbors</span> <span class="n">should</span> <span class="n">be</span>
+            <span class="n">returned</span> <span class="n">by</span> <span class="n">radius</span> <span class="n">search</span> <span class="o">*/</span>
+    <span class="nb">int</span> <span class="n">cores</span><span class="p">;</span> <span class="o">/*</span> <span class="n">number</span> <span class="n">of</span> <span class="n">paralel</span> <span class="n">cores</span> <span class="n">to</span> <span class="n">use</span> <span class="k">for</span> <span class="n">searching</span> <span class="o">*/</span>
+
+    <span class="o">/*</span>  <span class="n">kdtree</span> <span class="n">index</span> <span class="n">parameters</span> <span class="o">*/</span>
+    <span class="nb">int</span> <span class="n">trees</span><span class="p">;</span> <span class="o">/*</span> <span class="n">number</span> <span class="n">of</span> <span class="n">randomized</span> <span class="n">trees</span> <span class="n">to</span> <span class="n">use</span> <span class="p">(</span><span class="k">for</span> <span class="n">kdtree</span><span class="p">)</span> <span class="o">*/</span>
+    <span class="nb">int</span> <span class="n">leaf_max_size</span><span class="p">;</span>
+
+    <span class="o">/*</span> <span class="n">kmeans</span> <span class="n">index</span> <span class="n">parameters</span> <span class="o">*/</span>
+    <span class="nb">int</span> <span class="n">branching</span><span class="p">;</span> <span class="o">/*</span> <span class="n">branching</span> <span class="n">factor</span> <span class="p">(</span><span class="k">for</span> <span class="n">kmeans</span> <span class="n">tree</span><span class="p">)</span> <span class="o">*/</span>
+    <span class="nb">int</span> <span class="n">iterations</span><span class="p">;</span> <span class="o">/*</span> <span class="nb">max</span> <span class="n">iterations</span> <span class="n">to</span> <span class="n">perform</span> <span class="ow">in</span> <span class="n">one</span> <span class="n">kmeans</span> <span class="n">cluetering</span>
+            <span class="p">(</span><span class="n">kmeans</span> <span class="n">tree</span><span class="p">)</span> <span class="o">*/</span>
+    <span class="n">enum</span> <span class="n">flann_centers_init_t</span> <span class="n">centers_init</span><span class="p">;</span> <span class="o">/*</span> <span class="n">algorithm</span> <span class="n">used</span> <span class="k">for</span> <span class="n">picking</span> <span class="n">the</span>
+            <span class="n">initial</span> <span class="n">cluster</span> <span class="n">centers</span> <span class="k">for</span> <span class="n">kmeans</span> <span class="n">tree</span> <span class="o">*/</span>
+    <span class="nb">float</span> <span class="n">cb_index</span><span class="p">;</span> <span class="o">/*</span> <span class="n">cluster</span> <span class="n">boundary</span> <span class="n">index</span><span class="o">.</span> <span class="n">Used</span> <span class="n">when</span> <span class="n">searching</span> <span class="n">the</span> <span class="n">kmeans</span>
+            <span class="n">tree</span> <span class="o">*/</span>
+
+    <span class="o">/*</span> <span class="n">autotuned</span> <span class="n">index</span> <span class="n">parameters</span> <span class="o">*/</span>
+    <span class="nb">float</span> <span class="n">target_precision</span><span class="p">;</span> <span class="o">/*</span> <span class="n">precision</span> <span class="n">desired</span> <span class="p">(</span><span class="n">used</span> <span class="k">for</span> <span class="n">autotuning</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">otherwise</span><span class="p">)</span> <span class="o">*/</span>
+    <span class="nb">float</span> <span class="n">build_weight</span><span class="p">;</span> <span class="o">/*</span> <span class="n">build</span> <span class="n">tree</span> <span class="n">time</span> <span class="n">weighting</span> <span class="n">factor</span> <span class="o">*/</span>
+    <span class="nb">float</span> <span class="n">memory_weight</span><span class="p">;</span> <span class="o">/*</span> <span class="n">index</span> <span class="n">memory</span> <span class="n">weigthing</span> <span class="n">factor</span> <span class="o">*/</span>
+    <span class="nb">float</span> <span class="n">sample_fraction</span><span class="p">;</span> <span class="o">/*</span> <span class="n">what</span> <span class="n">fraction</span> <span class="n">of</span> <span class="n">the</span> <span class="n">dataset</span> <span class="n">to</span> <span class="n">use</span> <span class="k">for</span> <span class="n">autotuning</span> <span class="o">*/</span>
+    <span class="o">/*</span> <span class="n">LSH</span> <span class="n">parameters</span> <span class="o">*/</span>
+    <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">table_number_</span><span class="p">;</span> <span class="o">/**</span> <span class="n">The</span> <span class="n">number</span> <span class="n">of</span> <span class="nb">hash</span> <span class="n">tables</span> <span class="n">to</span> <span class="n">use</span> <span class="o">*/</span>
+    <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">key_size_</span><span class="p">;</span> <span class="o">/**</span> <span class="n">The</span> <span class="n">length</span> <span class="n">of</span> <span class="n">the</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">hash</span> <span class="n">tables</span> <span class="o">*/</span>
+    <span class="n">unsigned</span> <span class="nb">int</span> <span class="n">multi_probe_level_</span><span class="p">;</span> <span class="o">/**</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">levels</span> <span class="n">to</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">multi</span><span class="o">-</span><span class="n">probe</span>
+            <span class="n">LSH</span><span class="p">,</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">standard</span> <span class="n">LSH</span> <span class="o">*/</span>
+
+    <span class="o">/*</span> <span class="n">other</span> <span class="n">parameters</span> <span class="o">*/</span>
+    <span class="n">enum</span> <span class="n">flann_log_level_t</span> <span class="n">log_level</span><span class="p">;</span> <span class="o">/*</span> <span class="n">determines</span> <span class="n">the</span> <span class="n">verbosity</span> <span class="n">of</span> <span class="n">each</span> <span class="n">flann</span>
+            <span class="n">function</span> <span class="o">*/</span>
+    <span class="n">long</span> <span class="n">random_seed</span><span class="p">;</span> <span class="o">/*</span> <span class="n">random</span> <span class="n">seed</span> <span class="n">to</span> <span class="n">use</span> <span class="o">*/</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> and <code class="docutils literal notranslate"><span class="pre">centers_init</span></code> fields can take the following
+values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span> <span class="n">flann_algorithm_t</span>
+<span class="p">{</span>
+    <span class="n">FLANN_INDEX_LINEAR</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">FLANN_INDEX_KDTREE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">FLANN_INDEX_KMEANS</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">FLANN_INDEX_COMPOSITE</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">FLANN_INDEX_KDTREE_SINGLE</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">FLANN_INDEX_HIERARCHICAL</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">FLANN_INDEX_LSH</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="n">FLANN_INDEX_KDTREE_CUDA</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="o">//</span> <span class="n">available</span> <span class="k">if</span> <span class="n">compiled</span> <span class="k">with</span> <span class="n">CUDA</span>
+    <span class="n">FLANN_INDEX_SAVED</span> <span class="o">=</span> <span class="mi">254</span><span class="p">,</span>
+    <span class="n">FLANN_INDEX_AUTOTUNED</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="n">enum</span> <span class="n">flann_centers_init_t</span> <span class="p">{</span>
+    <span class="n">FLANN_CENTERS_RANDOM</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">FLANN_CENTERS_GONZALES</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">FLANN_CENTERS_KMEANSPP</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> field is used to manually select the type of index
+used. The <code class="docutils literal notranslate"><span class="pre">centers_init</span></code> field specifies how to choose the inital
+cluster centers when performing the hierarchical k-means clustering
+(in case the algorithm used is k-means): <code class="docutils literal notranslate"><span class="pre">FLANN_CENTERS_RANDOM</span></code>
+chooses the initial centers randomly, <code class="docutils literal notranslate"><span class="pre">FLANN_CENTERS_GONZALES</span></code>
+chooses the initial centers to be spaced apart from each other by
+using Gonzales’ algorithm and <code class="docutils literal notranslate"><span class="pre">FLANN_CENTERS_KMEANSPP</span></code> chooses the
+initial centers using the algorithm proposed in (Arthur and
+Vassilvitskii 2007).</p>
+<p>The fields: <code class="docutils literal notranslate"><span class="pre">checks</span></code>, <code class="docutils literal notranslate"><span class="pre">cb_index</span></code>, <code class="docutils literal notranslate"><span class="pre">trees</span></code>, <code class="docutils literal notranslate"><span class="pre">branching</span></code>,
+<code class="docutils literal notranslate"><span class="pre">iterations</span></code>, <code class="docutils literal notranslate"><span class="pre">target_precision</span></code>, <code class="docutils literal notranslate"><span class="pre">build_weight</span></code>,
+<code class="docutils literal notranslate"><span class="pre">memory_weight</span></code> and <code class="docutils literal notranslate"><span class="pre">sample_fraction</span></code> have the same meaning as
+described in <a class="reference external" href="#sec:flann::Index">3.1.1</a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">random_seed</span></code> field contains the random seed useed to
+initialize the random number generator.</p>
+<p>The field <code class="docutils literal notranslate"><span class="pre">log_level</span></code> controls the verbosity of the messages
+generated by the FLANN library functions. It can take the following
+values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span> <span class="n">flann_log_level_t</span>
+<span class="p">{</span>
+    <span class="n">FLANN_LOG_NONE</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">FLANN_LOG_FATAL</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">FLANN_LOG_ERROR</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">FLANN_LOG_WARN</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">FLANN_LOG_INFO</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">FLANN_LOG_DEBUG</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="flann-find-nearest-neighbors-index">
+<h4>flann_find_nearest_neighbors_index()<a class="headerlink" href="#flann-find-nearest-neighbors-index" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">flann_find_nearest_neighbors_index</span><span class="p">(</span><span class="n">flann_index_t</span> <span class="n">index_id</span><span class="p">,</span>
+    <span class="nb">float</span><span class="o">*</span> <span class="n">testset</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">trows</span><span class="p">,</span>
+    <span class="nb">int</span><span class="o">*</span> <span class="n">indices</span><span class="p">,</span>
+    <span class="nb">float</span><span class="o">*</span> <span class="n">dists</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">nn</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function searches for the nearest neighbors of the <code class="docutils literal notranslate"><span class="pre">testset</span></code>
+points using an index already build and referenced by <code class="docutils literal notranslate"><span class="pre">index_id</span></code>. The
+<code class="docutils literal notranslate"><span class="pre">testset</span></code> is a matrix stored in row-major format with <code class="docutils literal notranslate"><span class="pre">trows</span></code> rows
+and the same number of columns as the dimensionality of the points used
+to build the index. The function computes <code class="docutils literal notranslate"><span class="pre">nn</span></code> nearest neighbors for
+each point in the <code class="docutils literal notranslate"><span class="pre">testset</span></code> and stores them in the <code class="docutils literal notranslate"><span class="pre">indices</span></code> matrix
+(which is a <span class="math notranslate nohighlight">\(\rm{trows} \times \rm{nn}\)</span> matrix stored in row-major
+format). The memory for the <code class="docutils literal notranslate"><span class="pre">result</span></code> matrix must be allocated before
+the <code class="docutils literal notranslate"><span class="pre">flann_find_nearest_neighbors_index()</span></code> function is called. The
+distances to the nearest neighbors found are stored in the <code class="docutils literal notranslate"><span class="pre">dists</span></code>
+matrix.</p>
+</div>
+<div class="section" id="flann-find-nearest-neighbors">
+<h4>flann_find_nearest_neighbors()<a class="headerlink" href="#flann-find-nearest-neighbors" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">flann_find_nearest_neighbors</span><span class="p">(</span><span class="nb">float</span><span class="o">*</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">rows</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">cols</span><span class="p">,</span>
+    <span class="nb">float</span><span class="o">*</span> <span class="n">testset</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">trows</span><span class="p">,</span>
+    <span class="nb">int</span><span class="o">*</span> <span class="n">indices</span><span class="p">,</span>
+    <span class="nb">float</span><span class="o">*</span> <span class="n">dists</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">nn</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function is similar to the <code class="docutils literal notranslate"><span class="pre">flann_find_nearest_neighbors_index()</span></code>
+function, but instread of using a previously constructed index, it
+constructs the index, does the nearest neighbor search and deletes the
+index in one step.</p>
+</div>
+<div class="section" id="flann-radius-search">
+<h4>flann_radius_search()<a class="headerlink" href="#flann-radius-search" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">flann_radius_search</span><span class="p">(</span><span class="n">flann_index_t</span> <span class="n">index_ptr</span><span class="p">,</span> <span class="o">/*</span> <span class="n">the</span> <span class="n">index</span> <span class="o">*/</span>
+    <span class="nb">float</span><span class="o">*</span> <span class="n">query</span><span class="p">,</span> <span class="o">/*</span> <span class="n">query</span> <span class="n">point</span> <span class="o">*/</span>
+    <span class="nb">int</span><span class="o">*</span> <span class="n">indices</span><span class="p">,</span> <span class="o">/*</span> <span class="n">array</span> <span class="k">for</span> <span class="n">storing</span> <span class="n">the</span> <span class="n">indices</span> <span class="n">found</span> <span class="p">(</span><span class="n">will</span> <span class="n">be</span> <span class="n">modified</span><span class="p">)</span> <span class="o">*/</span>
+    <span class="nb">float</span><span class="o">*</span> <span class="n">dists</span><span class="p">,</span> <span class="o">/*</span> <span class="n">similar</span><span class="p">,</span> <span class="n">but</span> <span class="k">for</span> <span class="n">storing</span> <span class="n">distances</span> <span class="o">*/</span>
+    <span class="nb">int</span> <span class="n">max_nn</span><span class="p">,</span>  <span class="o">/*</span> <span class="n">size</span> <span class="n">of</span> <span class="n">arrays</span> <span class="n">indices</span> <span class="ow">and</span> <span class="n">dists</span> <span class="o">*/</span>
+    <span class="nb">float</span> <span class="n">radius</span><span class="p">,</span> <span class="o">/*</span> <span class="n">search</span> <span class="n">radius</span> <span class="p">(</span><span class="n">squared</span> <span class="n">radius</span> <span class="k">for</span> <span class="n">euclidian</span> <span class="n">metric</span><span class="p">)</span> <span class="o">*/</span>
+    <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function performs a radius search to single query point. The
+indices of the neighbors found and the distances to them are stored in
+the <code class="docutils literal notranslate"><span class="pre">indices</span></code> and dists <code class="docutils literal notranslate"><span class="pre">arrays</span></code>. The <code class="docutils literal notranslate"><span class="pre">max_nn</span></code> parameter sets the
+limit of the neighbors that will be returned (the size of the
+<code class="docutils literal notranslate"><span class="pre">indices</span></code> and <code class="docutils literal notranslate"><span class="pre">dists</span></code> arrays must be at least <code class="docutils literal notranslate"><span class="pre">max_nn</span></code>).</p>
+</div>
+<div class="section" id="flann-save-index">
+<h4>flann_save_index()<a class="headerlink" href="#flann-save-index" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">flann_save_index</span><span class="p">(</span><span class="n">flann_index_t</span> <span class="n">index_id</span><span class="p">,</span>
+    <span class="n">char</span><span class="o">*</span> <span class="n">filename</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function saves an index to a file. The dataset for which the index
+was built is not saved with the index.</p>
+</div>
+<div class="section" id="flann-load-index">
+<h4>flann_load_index()<a class="headerlink" href="#flann-load-index" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flann_index_t</span> <span class="n">flann_load_index</span><span class="p">(</span><span class="n">char</span><span class="o">*</span> <span class="n">filename</span><span class="p">,</span>
+    <span class="nb">float</span><span class="o">*</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">rows</span><span class="p">,</span>
+    <span class="nb">int</span> <span class="n">cols</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function loads a previously saved index from a file. Since the
+dataset is not saved with the index, it must be provided to this
+function.</p>
+</div>
+<div class="section" id="flann-free-index">
+<h4>flann_free_index()<a class="headerlink" href="#flann-free-index" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">flann_free_index</span><span class="p">(</span><span class="n">flann_index_t</span> <span class="n">index_id</span><span class="p">,</span>
+    <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function deletes a previously constructed index and frees all the
+memory used by it.</p>
+</div>
+<div class="section" id="flann-set-distance-type">
+<span id="flann-setdistancetype"></span><h4>flann_set_distance_type<a class="headerlink" href="#flann-set-distance-type" title="Permalink to this headline">¶</a></h4>
+<p>This function chooses the distance function to use when computing
+distances between data points.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">flann_set_distance_type</span><span class="p">(</span><span class="n">enum</span> <span class="n">flann_distance_t</span> <span class="n">distance_type</span><span class="p">,</span> <span class="nb">int</span> <span class="n">order</span><span class="p">);</span>
+</pre></div>
+</div>
+<dl>
+<dt>distance_type</dt><dd><p>The distance type to use. Possible values are</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span> <span class="n">flann_distance_t</span>
+<span class="p">{</span>
+    <span class="n">FLANN_DIST_EUCLIDEAN</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_L2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_MANHATTAN</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_L1</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_MINKOWSKI</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_MAX</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_HIST_INTERSECT</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_HELLINGER</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_CHI_SQUARE</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_KULLBACK_LEIBLER</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_HAMMING</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_HAMMING_LUT</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_HAMMING_POPCNT</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span>
+    <span class="n">FLANN_DIST_L2_SIMPLE</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</dd>
+<dt>order</dt><dd><p>Used in for the <code class="docutils literal notranslate"><span class="pre">FLANN_DIST_MINKOWSKI</span></code> distance type, to choose the
+order of the Minkowski distance.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="flann-compute-cluster-centers">
+<h4>flann_compute_cluster_centers()<a class="headerlink" href="#flann-compute-cluster-centers" title="Permalink to this headline">¶</a></h4>
+<p>Performs hierarchical clustering of a set of points (see
+<a class="reference external" href="#flann::hierarchicalClustering">3.1.9</a>).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">flann_compute_cluster_centers</span><span class="p">(</span><span class="nb">float</span><span class="o">*</span> <span class="n">dataset</span><span class="p">,</span>
+      <span class="nb">int</span> <span class="n">rows</span><span class="p">,</span>
+      <span class="nb">int</span> <span class="n">cols</span><span class="p">,</span>
+      <span class="nb">int</span> <span class="n">clusters</span><span class="p">,</span>
+      <span class="nb">float</span><span class="o">*</span> <span class="n">result</span><span class="p">,</span>
+      <span class="n">struct</span> <span class="n">FLANNParameters</span><span class="o">*</span> <span class="n">flann_params</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>See section <a class="reference external" href="#sec:quickstart">1.1</a> for an example of how to use the
+C/C++ bindings.</p>
+</div>
+</div>
+<div class="section" id="using-flann-from-matlab">
+<h3>Using FLANN from MATLAB<a class="headerlink" href="#using-flann-from-matlab" title="Permalink to this headline">¶</a></h3>
+<p>The FLANN library can be used from MATLAB through the following wrapper
+functions: <code class="docutils literal notranslate"><span class="pre">flann_build_index</span></code>, <code class="docutils literal notranslate"><span class="pre">flann_search</span></code>,
+<code class="docutils literal notranslate"><span class="pre">flann_save_index</span></code>, <code class="docutils literal notranslate"><span class="pre">flann_load_index</span></code>, <code class="docutils literal notranslate"><span class="pre">flann_set_distance_type</span></code>
+and <code class="docutils literal notranslate"><span class="pre">flann_free_index</span></code>. The <code class="docutils literal notranslate"><span class="pre">flann_build_index</span></code> function creates a
+search index from the dataset points, <code class="docutils literal notranslate"><span class="pre">flann_search</span></code> uses this index
+to perform nearest-neighbor searches, <code class="docutils literal notranslate"><span class="pre">flann_save_index</span></code> and
+<code class="docutils literal notranslate"><span class="pre">flann_load_index</span></code> can be used to save and load an index to/from disk,
+<code class="docutils literal notranslate"><span class="pre">flann_set_distance_type</span></code> is used to set the distance type to be used
+when building an index and <code class="docutils literal notranslate"><span class="pre">flann_free_index</span></code> deletes the index and
+releases the memory it uses.</p>
+<p>The following sections describe in more detail the FLANN matlab wrapper
+functions and show examples of how they may be used.</p>
+<div class="section" id="sec-flann-build-index">
+<span id="id4"></span><h4>flann_build_index<a class="headerlink" href="#sec-flann-build-index" title="Permalink to this headline">¶</a></h4>
+<p>This function creates a search index from the initial dataset of points,
+index used later for fast nearest-neighbor searches in the dataset.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">speedup</span><span class="p">]</span> <span class="o">=</span> <span class="n">flann_build_index</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">build_params</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The arguments passed to the <code class="docutils literal notranslate"><span class="pre">flann_build_index</span></code> function have the
+following meaning:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">dataset</span></code></dt><dd><p>is a <span class="math notranslate nohighlight">\(d \times n\)</span> matrix containing <span class="math notranslate nohighlight">\(n\)</span>
+<span class="math notranslate nohighlight">\(d\)</span>-dimensional points, stored in a column-major order (one
+feature on each column)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">build_params</span></code></dt><dd><ul class="simple">
+<li><p>is a MATLAB structure containing the parameters passed to the</p></li>
+</ul>
+<p>function.</p>
+</dd>
+</dl>
+<p>The <code class="docutils literal notranslate"><span class="pre">build_params</span></code> is used to specify the type of index to be built
+and the index parameters. These have a big impact on the performance of
+the new search index (nearest-neighbor search time) and on the time and
+memory required to build the index. The optimum parameter values depend
+on the dataset characteristics (number of dimensions, distribution of
+points in the dataset) and on the application domain (desired precision
+for the approximate nearest neighbor searches). The <code class="docutils literal notranslate"><span class="pre">build_params</span></code>
+argument is a structure that contains one or more of the following
+fields:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">algorithm</span></code></dt><dd><ul class="simple">
+<li><p>the algorithm to use for building the index. The possible values</p></li>
+</ul>
+<p>are: <code class="docutils literal notranslate"><span class="pre">’linear’</span></code>, <code class="docutils literal notranslate"><span class="pre">’kdtree’</span></code>, <code class="docutils literal notranslate"><span class="pre">’kmeans’</span></code>, <code class="docutils literal notranslate"><span class="pre">’composite’</span></code> or
+<code class="docutils literal notranslate"><span class="pre">’autotuned’</span></code>. The <code class="docutils literal notranslate"><span class="pre">’linear’</span></code> option does not create any index,
+it uses brute-force search in the original dataset points,
+<code class="docutils literal notranslate"><span class="pre">’kdtree’</span></code> creates one or more randomized kd-trees, <code class="docutils literal notranslate"><span class="pre">’kmeans’</span></code>
+creates a hierarchical kmeans clustering tree, <code class="docutils literal notranslate"><span class="pre">’composite’</span></code> is a
+mix of both kdtree and kmeans trees and the <code class="docutils literal notranslate"><span class="pre">’autotuned’</span></code>
+automatically determines the best index and optimum parameters using
+a cross-validation technique.</p>
+<p><strong>Autotuned index:</strong> in case the algorithm field is <code class="docutils literal notranslate"><span class="pre">’autotuned’</span></code>,
+the following fields should also be present:</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">target_precision</span></code></dt><dd><ul class="simple">
+<li><p>is a number between 0 and 1 specifying the percentage of the</p></li>
+</ul>
+<p>approximate nearest-neighbor searches that return the exact
+nearest-neighbor. Using a higher value for this parameter gives more
+accurate results, but the search takes longer. The optimum value
+usually depends on the application.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">build_weight</span></code></dt><dd><ul class="simple">
+<li><p>specifies the importance of the index build time raported to the</p></li>
+</ul>
+<p>nearest-neighbor search time. In some applications it’s acceptable
+for the index build step to take a long time if the subsequent
+searches in the index can be performed very fast. In other
+applications it’s required that the index be build as fast as
+possible even if that leads to slightly longer search times. (Default
+value: 0.01)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">memory_weight</span></code></dt><dd><ul class="simple">
+<li><p>is used to specify the tradeoff between time (index build time and</p></li>
+</ul>
+<p>search time) and memory used by the index. A value less than 1 gives
+more importance to the time spent and a value greater than 1 gives
+more importance to the memory usage.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">sample_fraction</span></code></dt><dd><ul class="simple">
+<li><p>is a number between 0 and 1 indicating what fraction of the dataset</p></li>
+</ul>
+<p>to use in the automatic parameter configuration algorithm. Running
+the algorithm on the full dataset gives the most accurate results,
+but for very large datasets can take longer than desired. In such
+case, using just a fraction of the data helps speeding up this
+algorithm, while still giving good approximations of the optimum
+parameters.</p>
+<p><strong>Randomized kd-trees index:</strong> in case the algorithm field is
+<code class="docutils literal notranslate"><span class="pre">’kdtree’</span></code>, the following fields should also be present:</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">trees</span></code></dt><dd><ul class="simple">
+<li><p>the number of randomized kd-trees to create.</p></li>
+</ul>
+<p><strong>Hierarchical k-means index:</strong> in case the algorithm type is
+<code class="docutils literal notranslate"><span class="pre">’means’</span></code>, the following fields should also be present:</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">branching</span></code></dt><dd><ul class="simple">
+<li><p>the branching factor to use for the hierarchical kmeans tree</p></li>
+</ul>
+<p>creation. While kdtree is always a binary tree, each node in the
+kmeans tree may have several branches depending on the value of this
+parameter.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">iterations</span></code></dt><dd><ul class="simple">
+<li><p>the maximum number of iterations to use in the kmeans clustering</p></li>
+</ul>
+<p>stage when building the kmeans tree. A value of -1 used here means
+that the kmeans clustering should be performed until convergence.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">centers_init</span></code></dt><dd><ul class="simple">
+<li><p>the algorithm to use for selecting the initial centers when</p></li>
+</ul>
+<p>performing a kmeans clustering step. The possible values are ’random’
+(picks the initial cluster centers randomly), ’gonzales’ (picks the
+initial centers using the Gonzales algorithm) and ’kmeanspp’ (picks
+the initial centers using the algorithm suggested in (Arthur and
+Vassilvitskii 2007)). If this parameters is omitted, the default
+value is ’random’.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cb_index</span></code></dt><dd><ul class="simple">
+<li><p>this parameter (cluster boundary index) influences the way</p></li>
+</ul>
+<p>exploration is performed in the hierarchical kmeans tree. When
+<code class="docutils literal notranslate"><span class="pre">cb_index</span></code> is zero the next kmeans domain to be explored is choosen
+to be the one with the closest center. A value greater then zero also
+takes into account the size of the domain.</p>
+<p><strong>Composite index:</strong> in case the algorithm type is <code class="docutils literal notranslate"><span class="pre">’composite’</span></code>,
+the fields from both randomized kd-tree index and hierarchical
+k-means index should be present.</p>
+</dd>
+</dl>
+<p>The <code class="docutils literal notranslate"><span class="pre">flann_build_index</span></code> function returns the newly created <code class="docutils literal notranslate"><span class="pre">index</span></code>,
+the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> used for creating the index and, if automatic
+configuration was used, an estimation of the <code class="docutils literal notranslate"><span class="pre">speedup</span></code> over linear
+search that is achieved when searching the index. Since the parameter
+estimation step is costly, it is possible to save the computed
+parameters and reuse them the next time an index is created from similar
+data points (coming from the same distribution).</p>
+</div>
+<div class="section" id="flann-search">
+<h4>flann_search<a class="headerlink" href="#flann-search" title="Permalink to this headline">¶</a></h4>
+<p>This function performs nearest-neighbor searches using the index already
+created:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">result</span><span class="p">,</span> <span class="n">dists</span><span class="p">]</span> <span class="o">=</span> <span class="n">flann_search</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">testset</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">parameters</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The arguments required by this function are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">index</span></code></dt><dd><ul class="simple">
+<li><p>the index returned by the <code class="docutils literal notranslate"><span class="pre">flann_build_index</span></code> function</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">testset</span></code></dt><dd><ul class="simple">
+<li><p>a <span class="math notranslate nohighlight">\(d \times m\)</span> matrix containing <span class="math notranslate nohighlight">\(m\)</span> test points whose</p></li>
+</ul>
+<p>k-nearest-neighbors need to be found</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">k</span></code></dt><dd><ul class="simple">
+<li><p>the number of nearest neighbors to be returned for each point from</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">testset</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">parameters</span></code></dt><dd><ul class="simple">
+<li><p>structure containing the search parameters. Currently it has only</p></li>
+</ul>
+<p>one member, <code class="docutils literal notranslate"><span class="pre">parameters.checks</span></code>, denoting the number of times the
+tree(s) in the index should be recursively traversed. A higher value
+for this parameter would give better search precision, but also take
+more time. If automatic configuration was used when the index was
+created, the number of checks required to achieve the specified
+precision is also computed. In such case, the parameters structure
+returned by the <code class="docutils literal notranslate"><span class="pre">flann_build_index</span></code> function can be passed directly
+to the <code class="docutils literal notranslate"><span class="pre">flann_search</span></code> function.</p>
+</dd>
+</dl>
+<p>The function returns two matrices, each of size <span class="math notranslate nohighlight">\(k \times m\)</span>. The
+first one contains, in which each column, the indexes (in the dataset
+matrix) of the <span class="math notranslate nohighlight">\(k\)</span> nearest neighbors of the corresponding point
+from testset, while the second one contains the corresponding distances.
+The second matrix can be omitted when making the call if the distances
+to the nearest neighbors are not needed.</p>
+<p>For the case where a single search will be performed with each index,
+the <code class="docutils literal notranslate"><span class="pre">flann_search</span></code> function accepts the dataset instead of the index
+as first argument, in which case the index is created searched and then
+deleted in one step. In this case the parameters structure passed to the
+<code class="docutils literal notranslate"><span class="pre">flann_search</span></code> function must also contain the fields of the
+<code class="docutils literal notranslate"><span class="pre">build_params</span></code> structure that would normally be passed to the
+<code class="docutils literal notranslate"><span class="pre">flann_build_index</span></code> function if the index was build separately.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">result</span><span class="p">,</span> <span class="n">dists</span><span class="p">]</span> <span class="o">=</span> <span class="n">flann_search</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">testset</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">parameters</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="flann-save-index-1">
+<span id="id5"></span><h4>flann_save_index<a class="headerlink" href="#flann-save-index-1" title="Permalink to this headline">¶</a></h4>
+<p>This function saves an index to a file so that it can be reused at a
+later time without the need to recompute it. Only the index will be
+saved to the file, not also the data points for which the index was
+created, so for the index to be reused the data points must be saved
+separately.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flann_save_index</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The argumenst required by this function are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">index</span></code></dt><dd><ul class="simple">
+<li><p>the index to be saved, created by <code class="docutils literal notranslate"><span class="pre">flann_build_index</span></code></p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">filename</span></code></dt><dd><ul class="simple">
+<li><p>the name of the file in which to save the index</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="flann-load-index-1">
+<span id="id6"></span><h4>flann_load_index<a class="headerlink" href="#flann-load-index-1" title="Permalink to this headline">¶</a></h4>
+<p>This function loads a previously saved index from a file. It needs to be
+passed as a second parameter the dataset for which the index was
+created, as this is not saved together with the index.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">flann_load_index</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The argumenst required by this function are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">filename</span></code></dt><dd><ul class="simple">
+<li><p>the file from which to load the index</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dataset</span></code></dt><dd><ul class="simple">
+<li><p>the dataset for which the index was created</p></li>
+</ul>
+</dd>
+</dl>
+<p>This function returns the index object.</p>
+</div>
+<div class="section" id="matlab-flannsetdistancetype">
+<span id="id7"></span><h4>flann_set_distance_type<a class="headerlink" href="#matlab-flannsetdistancetype" title="Permalink to this headline">¶</a></h4>
+<p>This function chooses the distance function to use when computing
+distances between data points.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flann_set_distance_type</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">order</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The argumenst required by this function are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><ul class="simple">
+<li><p>the distance type to use. Possible values are: <code class="docutils literal notranslate"><span class="pre">’euclidean’</span></code>,</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">’manhattan’</span></code>, <code class="docutils literal notranslate"><span class="pre">’minkowski’</span></code>, <code class="docutils literal notranslate"><span class="pre">’max_dist’</span></code>
+(<span class="math notranslate nohighlight">\(L\_{infinity}\)</span> - distance type is not valid for kd-tree index
+type since it’s not dimensionwise additive), <code class="docutils literal notranslate"><span class="pre">’hik’</span></code> (histogram
+intersection kernel), <code class="docutils literal notranslate"><span class="pre">’hellinger’</span></code>,<code class="docutils literal notranslate"><span class="pre">’cs’</span></code> (chi-square) and
+<code class="docutils literal notranslate"><span class="pre">’kl’</span></code> (Kullback-Leibler).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">order</span></code></dt><dd><ul class="simple">
+<li><p>only used if distance type is <code class="docutils literal notranslate"><span class="pre">’minkowski’</span></code> and represents the</p></li>
+</ul>
+<p>order of the minkowski distance.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="flann-free-index-1">
+<span id="id8"></span><h4>flann_free_index<a class="headerlink" href="#flann-free-index-1" title="Permalink to this headline">¶</a></h4>
+<p>This function must be called to delete an index and release all the
+memory used by it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">flann_free_index</span><span class="p">(</span><span class="n">index</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="examples">
+<h4>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h4>
+<p>Let’s look at a few examples showing how the functions described above
+are used:</p>
+</div>
+<div class="section" id="example-1">
+<h4>Example 1:<a class="headerlink" href="#example-1" title="Permalink to this headline">¶</a></h4>
+<p>In this example the index is constructed using automatic parameter
+estimation, requesting 70% as desired precision and using the default
+values for the build time and memory usage factors. The index is then
+used to search for the nearest-neighbors of the points in the testset
+matrix and finally the index is deleted.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">single</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">10000</span><span class="p">));</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">single</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">1000</span><span class="p">));</span>
+
+<span class="n">build_params</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="s1">&#39;autotuned&#39;</span><span class="p">;</span>
+<span class="n">build_params</span><span class="o">.</span><span class="n">target_precision</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">;</span>
+<span class="n">build_params</span><span class="o">.</span><span class="n">build_weight</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">;</span>
+<span class="n">build_params</span><span class="o">.</span><span class="n">memory_weight</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="n">parameters</span><span class="p">]</span> <span class="o">=</span> <span class="n">flann_build_index</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">build_params</span><span class="p">);</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">flann_search</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="n">testset</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">parameters</span><span class="p">);</span>
+
+<span class="n">flann_free_index</span><span class="p">(</span><span class="n">index</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-2">
+<h4>Example 2:<a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h4>
+<p>In this example the index constructed with the parameters specified
+manually.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">single</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">10000</span><span class="p">));</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">single</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">1000</span><span class="p">));</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">flann_build_index</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="n">struct</span><span class="p">(</span><span class="s1">&#39;algorithm&#39;</span><span class="p">,</span><span class="s1">&#39;kdtree&#39;</span><span class="p">,</span><span class="s1">&#39;trees&#39;</span><span class="p">,</span><span class="mi">8</span><span class="p">));</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">flann_search</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="n">testset</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">struct</span><span class="p">(</span><span class="s1">&#39;checks&#39;</span><span class="p">,</span><span class="mi">128</span><span class="p">));</span>
+
+<span class="n">flann_free_index</span><span class="p">(</span><span class="n">index</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-3">
+<h4>Example 3:<a class="headerlink" href="#example-3" title="Permalink to this headline">¶</a></h4>
+<p>In this example the index creation, searching and deletion are all
+performed in one step:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">single</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">10000</span><span class="p">));</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">single</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">1000</span><span class="p">));</span>
+
+<span class="p">[</span><span class="n">result</span><span class="p">,</span><span class="n">dists</span><span class="p">]</span> <span class="o">=</span> <span class="n">flann_search</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="n">testset</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">struct</span><span class="p">(</span><span class="s1">&#39;checks&#39;</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="s1">&#39;algorithm&#39;</span><span class="p">,</span><span class="o">...</span>
+    <span class="s1">&#39;kmeans&#39;</span><span class="p">,</span><span class="s1">&#39;branching&#39;</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="s1">&#39;iterations&#39;</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="using-flann-from-python">
+<h3>Using FLANN from python<a class="headerlink" href="#using-flann-from-python" title="Permalink to this headline">¶</a></h3>
+<p>The python bindings are automatically installed on the system with the
+FLANN library if the option <code class="docutils literal notranslate"><span class="pre">BUILD_PYTHON_BINDINGS</span></code> is enabled. You
+may need to set the <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> to the location of the bindings if
+you installed FLANN in a non-standard location. The python bindings also
+require the numpy package to be installed.</p>
+<p>To use the python FLANN bindings the package <code class="docutils literal notranslate"><span class="pre">pyflann</span></code> must be
+imported (see the python example in section <a class="reference external" href="#sec:quickstart">1.1</a>).
+This package contains a class called FLANN that handles the
+nearest-neighbor search operations. This class containg the following
+methods:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">build_index(self,</span> <span class="pre">dataset,</span> <span class="pre">**kwargs)</span></code></dt><dd><div class="line-block">
+<div class="line">:</div>
+<div class="line">This method builds and internally stores an index to be used for
+future nearest neighbor matchings. It erases any previously stored
+index, so in order to work with multiple indexes, multiple
+instances of the FLANN class must be used. The <code class="docutils literal notranslate"><span class="pre">dataset</span></code> argument
+must be a 2D numpy array or a matrix, stored in a row-major order
+(a feature on each row of the matrix). The rest of the arguments
+that can be passed to the method are the same as those used in the
+<code class="docutils literal notranslate"><span class="pre">build_params</span></code> structure from section
+<a class="reference external" href="#sec:flann_build_index">3.3.1</a>. Similar to the MATLAB version,
+the index can be created using manually specified parameters or the
+parameters can be automatically computed (by specifying the
+target_precision, build_weight and memory_weight arguments).</div>
+</div>
+<p>The method returns a dictionary containing the parameters used to
+construct the index. In case automatic parameter selection is used,
+the dictionary will also contain the number of checks required to
+achieve the desired target precision and an estimation of the speedup
+over linear search that the library will provide.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">nn_index(self,</span> <span class="pre">testset,</span> <span class="pre">num_neighbors</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">**kwargs)</span></code></dt><dd><div class="line-block">
+<div class="line">:</div>
+<div class="line">This method searches for the <code class="docutils literal notranslate"><span class="pre">num_neighbors</span></code> nearest neighbors of
+each point in <code class="docutils literal notranslate"><span class="pre">testset</span></code> using the index computed by
+<code class="docutils literal notranslate"><span class="pre">build_index</span></code>. Additionally, a parameter called checks, denoting
+the number of times the index tree(s) should be recursivelly
+searched, must be given.</div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyflann</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+
+<span class="n">flann</span> <span class="o">=</span> <span class="n">FLANN</span><span class="p">()</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">flann</span><span class="o">.</span><span class="n">build_index</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;autotuned&quot;</span><span class="p">,</span> <span class="n">target_precision</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">log_level</span> <span class="o">=</span> <span class="s2">&quot;info&quot;</span><span class="p">);</span>
+<span class="nb">print</span> <span class="n">params</span>
+
+<span class="n">result</span><span class="p">,</span> <span class="n">dists</span> <span class="o">=</span> <span class="n">flann</span><span class="o">.</span><span class="n">nn_index</span><span class="p">(</span><span class="n">testset</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="n">checks</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;checks&quot;</span><span class="p">]);</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">nn(self,</span> <span class="pre">dataset,</span> <span class="pre">testset,</span> <span class="pre">num_neighbors</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">**kwargs)</span></code></dt><dd><div class="line-block">
+<div class="line">:</div>
+<div class="line">This method builds the index, performs the nearest neighbor search
+and deleted the index, all in one step.</div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">save_index(self,</span> <span class="pre">filename)</span></code></dt><dd><div class="line-block">
+<div class="line">:</div>
+<div class="line">This method saves the index to a file. The dataset from which the
+index was built is not saved.</div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">load_index(self,</span> <span class="pre">filename,</span> <span class="pre">pts)</span></code></dt><dd><div class="line-block">
+<div class="line">:</div>
+<div class="line">Load the index from a file. The dataset for which the index was
+built must also be provided since it is not saved with the index.</div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">set_distance_type(distance_type,</span> <span class="pre">order</span> <span class="pre">=</span> <span class="pre">0)</span></code></dt><dd><div class="line-block">
+<div class="line">:</div>
+<div class="line">This function (part of the pyflann module) sets the distance type
+to be used. See <a class="reference external" href="#matlab:flannSetDistanceType">3.3.5</a> for
+possible values of the distance_type.</div>
+</div>
+</dd>
+</dl>
+<p>See section <a class="reference external" href="#sec:quickstart">1.1</a> for an example of how to use the
+Python and Ruby bindings.</p>
+<div class="references hanging-indent docutils container" id="refs">
+<div class="docutils container" id="ref-arthur-kmeanspp-2007">
+<p>Arthur, D., and S. Vassilvitskii. 2007. “K-Means++: The Advantages
+of Careful Seeding.” In <em>Proceedings of the Eighteenth Annual
+Acm-Siam Symposium on Discrete Algorithms</em>, 1027–35. Society for
+Industrial; Applied Mathematics Philadelphia, PA, USA.</p>
+</div>
+</div>
+<dl class="footnote brackets">
+<dt class="label" id="id9"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="http://www.cmake.org/">http://www.cmake.org/</a></p>
+</dd>
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>For index creation, only <code class="docutils literal notranslate"><span class="pre">float4</span></code> points are supported, <code class="docutils literal notranslate"><span class="pre">float3</span></code>
+or structure-of-array (SOA) representations are currently not
+supported since <code class="docutils literal notranslate"><span class="pre">float4</span></code> proved to be best in terms of access speed
+for tree creation and search.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Marius Muja and David G. Lowe
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
